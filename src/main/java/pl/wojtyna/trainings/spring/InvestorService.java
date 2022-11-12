@@ -1,5 +1,7 @@
 package pl.wojtyna.trainings.spring;
 
+import java.util.List;
+
 public class InvestorService {
 
     private final InvestorRepository investorRepository;
@@ -10,5 +12,9 @@ public class InvestorService {
 
     public void register(Investor investor) {
         investorRepository.save(investor);
+    }
+
+    public List<Investor> findAll() {
+        return investorRepository.findAll();
     }
 }
