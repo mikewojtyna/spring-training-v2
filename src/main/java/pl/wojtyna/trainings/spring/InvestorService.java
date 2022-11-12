@@ -10,8 +10,8 @@ public class InvestorService {
         this.investorRepository = investorRepository;
     }
 
-    public void register(Investor investor) {
-        investorRepository.save(investor);
+    public void register(RegisterInvestor command) {
+        investorRepository.save(new Investor(command.id(), command.name()));
     }
 
     public List<Investor> findAll() {

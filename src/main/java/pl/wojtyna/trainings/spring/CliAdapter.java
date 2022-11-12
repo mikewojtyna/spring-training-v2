@@ -9,9 +9,9 @@ public class CliAdapter {
         var investorService = new InvestorService(investorRepository);
         var id = extractIdOrFail(args);
         var name = extractNameOrFail(args);
-        var investor = new Investor(id, name);
+        var registerInvestorCommand = new RegisterInvestor(id, name);
         System.out.println("Registering new investor");
-        investorService.register(investor);
+        investorService.register(registerInvestorCommand);
         System.out.println("New investor registered");
         System.out.println("All available investors");
         investorService.findAll().forEach(System.out::println);
