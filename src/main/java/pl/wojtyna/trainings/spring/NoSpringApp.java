@@ -4,7 +4,12 @@ public class NoSpringApp {
 
     public static void main(String[] args) {
         CliCommandsMapper cliCommandsMapper = new SimpleNameCliCommandsMapper();
-        var cliAdapter = new CliAdapter(cliCommandsMapper);
+        InvestorRepository investorRepository = new InMemoryInvestorRepository();
+        LocalInvestorProfileRepository localInvestorProfileRepository = new FakeInvestorProfileRepository();
+        InvestorProfileService investorProfileService = new RepositoryInvestorProfileService(
+            localInvestorProfileRepository);
+        var investorService = new InvestorService(investorRepository, investorProfileService);
+        var cliAdapter = new CliAdapter(cliCommandsMapper, investorService);
         cliAdapter.run(args);
     }
 }
