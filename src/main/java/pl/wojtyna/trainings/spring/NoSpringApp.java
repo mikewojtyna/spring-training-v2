@@ -3,7 +3,7 @@ package pl.wojtyna.trainings.spring;
 public class NoSpringApp {
 
     public static void main(String[] args) {
-        CliCommandsMapper cliCommandsMapper = new SimpleNameCliCommandsMapper();
+        CliCommandsMapper cliCommandsMapper = new SurnameAwareCliCommandsMapper();
         InvestorRepository investorRepository = new InMemoryInvestorRepository();
         LocalInvestorProfileRepository localInvestorProfileRepository = new FakeInvestorProfileRepository();
         InvestorProfileService investorProfileService = new RepositoryInvestorProfileService(
