@@ -1,5 +1,8 @@
 package pl.wojtyna.trainings.spring;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class HardcodedRestResources implements RestResources {
 
     @Override

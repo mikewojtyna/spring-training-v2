@@ -1,8 +1,11 @@
 package pl.wojtyna.trainings.spring;
 
+import org.springframework.stereotype.Component;
+
 import java.util.Optional;
 import java.util.stream.Stream;
 
+@Component
 public class SurnameAwareCliCommandsMapper implements CliCommandsMapper {
 
     @Override

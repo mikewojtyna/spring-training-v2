@@ -1,9 +1,11 @@
 package pl.wojtyna.trainings.spring;
 
 import lombok.Data;
+import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 
+@Component
 public class RestClientInvestorProfileService implements InvestorProfileService {
 
     private final RestClient restClient;

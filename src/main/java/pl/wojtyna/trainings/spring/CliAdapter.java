@@ -1,5 +1,8 @@
 package pl.wojtyna.trainings.spring;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class CliAdapter {
 
     private final CliCommandsMapper cliCommandsMapper;

@@ -1,8 +1,11 @@
 package pl.wojtyna.trainings.spring;
 
+import org.springframework.stereotype.Component;
+
 import java.util.List;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
+@Component
 public class InMemoryInvestorRepository implements InvestorRepository {
 
     private final ConcurrentLinkedQueue<Investor> investors = new ConcurrentLinkedQueue<>();

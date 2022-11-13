@@ -1,7 +1,10 @@
 package pl.wojtyna.trainings.spring;
 
+import org.springframework.stereotype.Component;
+
 import java.util.List;
 
+@Component
 public class InvestorService {
 
     private final InvestorRepository investorRepository;
