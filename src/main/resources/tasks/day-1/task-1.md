@@ -1,3 +1,5 @@
+`git checkout task-1-start`
+
 InvestorService allows registering new investors. The implementation is
 provided for your convenience.
 

@@ -1,5 +1,7 @@
 # More services!
 
+`git checkout task-2-start`
+
 Let's change `InvestorService` to accept the `RegisterInvestor` command
 instead of `Investor`,
 so the
