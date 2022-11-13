@@ -9,7 +9,7 @@ public class UnirestClient implements RestClient {
 
     private final String resourceUrl;
 
-    public UnirestClient(String resourceUrl) {this.resourceUrl = resourceUrl;}
+    public UnirestClient(RestResources restResources) {this.resourceUrl = restResources.profiles();}
 
     @Override
     public <T> Optional<T> get(String resourceId, Class<T> type) {
