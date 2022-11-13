@@ -1,15 +1,13 @@
 package pl.wojtyna.trainings.spring;
 
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+@SpringBootApplication
 public class SpringTrainingV2Application {
 
     public static void main(String[] args) {
-        var context = new AnnotationConfigApplicationContext();
-        context.scan("pl.wojtyna");
-        context.refresh();
-        var cliAdapter = context.getBean(CliAdapter.class);
-        cliAdapter.run(args);
+        SpringApplication.run(SpringTrainingV2Application.class, args);
     }
 
 }
