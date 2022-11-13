@@ -16,6 +16,7 @@ public class NoSpringDependencyInjectionContainer {
 
     private final ConcurrentMap<Class<?>, ImplementationDetails> allDependencies = new ConcurrentHashMap<>();
     private final Reflections reflections = new Reflections("pl.wojtyna");
+    private final ConcurrentMap<Class<?>, Object> cache = new ConcurrentHashMap<>();
 
     public static NoSpringDependencyInjectionContainer create() {
         return new NoSpringDependencyInjectionContainer();
@@ -29,14 +30,17 @@ public class NoSpringDependencyInjectionContainer {
                                                                                                       .flatMap(aClass -> getComponent(
                                                                                                           aClass).stream()))
                                                                  .toList();
-        return maybeImplementationDetails.map(ImplementationDetails::concreteType).map(concreteType -> {
-            try {
-                return concreteType.getConstructors()[0].newInstance(resolvedDependencies.toArray());
-            }
-            catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
-                throw new RuntimeException(e);
-            }
-        }).map(typeOfComponent::cast);
+        return maybeImplementationDetails.map(ImplementationDetails::concreteType)
+                                         .map(concreteType -> cache.computeIfAbsent(concreteType, key -> {
+                                             try {
+                                                 return key.getConstructors()[0].newInstance(resolvedDependencies.toArray());
+                                             }
+                                             catch (InstantiationException | IllegalAccessException |
+                                                    InvocationTargetException e) {
+                                                 throw new RuntimeException(e);
+                                             }
+                                         }))
+                                         .map(typeOfComponent::cast);
     }
 
     public <C> void register(Class<C> typeOfComponent, Class<? super C> asType) {
