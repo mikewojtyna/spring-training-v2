@@ -5,8 +5,14 @@ import org.springframework.stereotype.Component;
 @Component
 public class HardcodedRestResources implements RestResources {
 
+    private final String profiles;
+
+    public HardcodedRestResources(RestResourcesConfiguration restResourcesConfiguration) {
+        this.profiles = restResourcesConfiguration.host() + restResourcesConfiguration.investor().resource();
+    }
+
     @Override
     public String profiles() {
-        return "http://localhost:8080/investor/api/v0/profiles";
+        return profiles;
     }
 }

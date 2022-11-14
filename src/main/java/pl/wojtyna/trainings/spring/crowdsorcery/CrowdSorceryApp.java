@@ -12,6 +12,7 @@ public class CrowdSorceryApp {
     private static SpringApplicationBuilder configureContextBuilder() {
         return new SpringApplicationBuilder()
             .parent(CrowdSorceryRootContextConfiguration.class)
-            .child(NotificationModuleConfiguration.class);
+            .child(NotificationModuleConfiguration.class)
+            .properties("someProperty=A", "otherProperty=B");
     }
 }
