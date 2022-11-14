@@ -1,17 +1,17 @@
-package pl.wojtyna.trainings.spring.examples.beans.javaconfig;
+package pl.wojtyna.trainings.spring.crowdsorcery.investor;
 
 import org.springframework.beans.factory.config.BeanDefinition;
+import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.Scope;
 import pl.wojtyna.trainings.spring.crowdsorcery.eventpublisher.EventPublisher;
-import pl.wojtyna.trainings.spring.crowdsorcery.eventpublisher.InMemoryEventPublisher;
-import pl.wojtyna.trainings.spring.crowdsorcery.investor.*;
 import pl.wojtyna.trainings.spring.crowdsorcery.rest.RestClient;
-import pl.wojtyna.trainings.spring.crowdsorcery.rest.UnirestClient;
+import pl.wojtyna.trainings.spring.crowdsorcery.rest.RestModuleConfiguration;
 
-@Configuration
-public class JavaConfiguration {
+@SpringBootConfiguration
+@Import(RestModuleConfiguration.class)
+public class InvestorModuleConfiguration {
 
     @Bean
     @Scope(BeanDefinition.SCOPE_SINGLETON) // singleton is the default scope
@@ -25,11 +25,6 @@ public class JavaConfiguration {
     }
 
     @Bean
-    public RestClient restClient() {
-        return new UnirestClient(() -> "http://localhost:8080/investor/api/v0/profiles");
-    }
-
-    @Bean
     public InvestorProfileService investorProfileService(RestClient restClient) {
         return new RestClientInvestorProfileService(restClient);
     }
@@ -37,11 +32,6 @@ public class JavaConfiguration {
     @Bean
     public InvestorRepository investorRepository() {
         return new InMemoryInvestorRepository();
-    }
-
-    @Bean
-    public EventPublisher eventPublisher() {
-        return new InMemoryEventPublisher();
     }
 
     @Bean

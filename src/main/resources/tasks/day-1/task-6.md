@@ -22,9 +22,3 @@ Some questions
 2. Can you explain the design of your modules?
 3. Are all modules separate contexts?
 4. Are Spring hierarchical contexts good candidates for modules?
-
-### It that was too easy...
-
-Let investor module publish generic events, e.g. `Event<?
-extends InvestorModuleEvent>` and Notification module handle only
-`Event<InvestorRegistered>` events in a type-safe manner.

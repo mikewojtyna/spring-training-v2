@@ -4,32 +4,32 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<bean id="cliCommandsMapper"
-	      class="pl.wojtyna.trainings.spring.crowdsorcery.SurnameAwareCliCommandsMapper"/>
+	      class="pl.wojtyna.trainings.spring.crowdsorcery.investor.SurnameAwareCliCommandsMapper"/>
 	<bean id="cliAdapter"
-	      class="pl.wojtyna.trainings.spring.crowdsorcery.CliAdapter">
+	      class="pl.wojtyna.trainings.spring.crowdsorcery.investor.CliAdapter">
 
 		<constructor-arg index="0" ref="cliCommandsMapper"/>
 		<constructor-arg index="1" ref="investorService"/>
 	</bean>
 	<bean
-		class="pl.wojtyna.trainings.spring.crowdsorcery.CliSpringAdapterRunner">
+		class="pl.wojtyna.trainings.spring.crowdsorcery.investor.CliSpringAdapterRunner">
 		<constructor-arg ref="cliAdapter"/>
 	</bean>
 	<bean id="investorService"
-	      class="pl.wojtyna.trainings.spring.crowdsorcery.InvestorService">
+	      class="pl.wojtyna.trainings.spring.crowdsorcery.investor.InvestorService">
 		<constructor-arg index="0" ref="investorRepository"/>
 		<constructor-arg index="1" ref="investorProfileSerivce"/>
 	</bean>
 	<bean id="investorRepository"
-	      class="pl.wojtyna.trainings.spring.crowdsorcery.InMemoryInvestorRepository"/>
+	      class="pl.wojtyna.trainings.spring.crowdsorcery.investor.InMemoryInvestorRepository"/>
 	<bean id="investorProfileSerivce"
-	      class="pl.wojtyna.trainings.spring.crowdsorcery.RestClientInvestorProfileService">
+	      class="pl.wojtyna.trainings.spring.crowdsorcery.investor.RestClientInvestorProfileService">
 		<constructor-arg ref="restClient"/>
 	</bean>
 	<bean id="restClient"
-	      class="pl.wojtyna.trainings.spring.crowdsorcery.UnirestClient">
+	      class="pl.wojtyna.trainings.spring.crowdsorcery.rest.UnirestClient">
 		<constructor-arg ref="restResources"/>
 	</bean>
 	<bean id="restResources"
-	      class="pl.wojtyna.trainings.spring.crowdsorcery.HardcodedRestResources"/>
+	      class="pl.wojtyna.trainings.spring.crowdsorcery.rest.HardcodedRestResources"/>
 </beans>
