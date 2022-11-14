@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="cliCommandsMapper"
+	      class="pl.wojtyna.trainings.spring.crowdsorcery.SurnameAwareCliCommandsMapper"/>
+	<bean id="cliAdapter"
+	      class="pl.wojtyna.trainings.spring.crowdsorcery.CliAdapter">
+
+		<constructor-arg index="0" ref="cliCommandsMapper"/>
+		<constructor-arg index="1" ref="investorService"/>
+	</bean>
+	<bean
+		class="pl.wojtyna.trainings.spring.crowdsorcery.CliSpringAdapterRunner">
+		<constructor-arg ref="cliAdapter"/>
+	</bean>
+	<bean id="investorService"
+	      class="pl.wojtyna.trainings.spring.crowdsorcery.InvestorService">
+		<constructor-arg index="0" ref="investorRepository"/>
+		<constructor-arg index="1" ref="investorProfileSerivce"/>
+	</bean>
+	<bean id="investorRepository"
+	      class="pl.wojtyna.trainings.spring.crowdsorcery.InMemoryInvestorRepository"/>
+	<bean id="investorProfileSerivce"
+	      class="pl.wojtyna.trainings.spring.crowdsorcery.RestClientInvestorProfileService">
+		<constructor-arg ref="restClient"/>
+	</bean>
+	<bean id="restClient"
+	      class="pl.wojtyna.trainings.spring.crowdsorcery.UnirestClient">
+		<constructor-arg ref="restResources"/>
+	</bean>
+	<bean id="restResources"
+	      class="pl.wojtyna.trainings.spring.crowdsorcery.HardcodedRestResources"/>
+</beans>

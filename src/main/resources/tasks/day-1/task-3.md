@@ -18,7 +18,7 @@ So... Let's do this!
    the main method should now look something like this:
 
 ```java
-import pl.wojtyna.trainings.spring.CliAdapter;
+import pl.wojtyna.trainings.spring.crowdsorcery.CliAdapter;
 
 public class NoSpringApp {
 
