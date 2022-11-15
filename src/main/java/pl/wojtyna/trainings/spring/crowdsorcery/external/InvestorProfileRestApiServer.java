@@ -1,6 +1,5 @@
 package pl.wojtyna.trainings.spring.crowdsorcery.external;
 
-import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -34,7 +33,13 @@ public class InvestorProfileRestApiServer {
                 }
             }
             finally {
-                server.destroy();
+                try {
+                    server.destroy();
+                }
+                catch (Exception e) {
+                    e.printStackTrace();
+                    // do nothing
+                }
             }
         });
         thread.start();
@@ -44,7 +49,7 @@ public class InvestorProfileRestApiServer {
     private static class InvestorProfileServlet extends HttpServlet {
 
         @Override
-        protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
             resp.setContentType("application/json");
             resp.setStatus(HttpServletResponse.SC_OK);
             resp.getWriter().println("""

@@ -7,12 +7,13 @@ import pl.wojtyna.trainings.spring.crowdsorcery.eventpublisher.EventPublisher;
 import pl.wojtyna.trainings.spring.crowdsorcery.investor.cli.CliAdapter;
 import pl.wojtyna.trainings.spring.crowdsorcery.investor.cli.CliCommandsMapper;
 import pl.wojtyna.trainings.spring.crowdsorcery.investor.cli.SurnameAwareCliCommandsMapper;
-import pl.wojtyna.trainings.spring.crowdsorcery.investor.profile.RestClientInvestorProfileService;
+import pl.wojtyna.trainings.spring.crowdsorcery.investor.profile.RepositoryInvestorProfileService;
+import pl.wojtyna.trainings.spring.crowdsorcery.investor.repository.FakeInvestorProfileRepository;
 import pl.wojtyna.trainings.spring.crowdsorcery.investor.repository.InMemoryInvestorRepository;
 import pl.wojtyna.trainings.spring.crowdsorcery.investor.repository.InvestorRepository;
+import pl.wojtyna.trainings.spring.crowdsorcery.investor.repository.LocalInvestorProfileRepository;
 import pl.wojtyna.trainings.spring.crowdsorcery.investor.service.InvestorProfileService;
 import pl.wojtyna.trainings.spring.crowdsorcery.investor.service.InvestorService;
-import pl.wojtyna.trainings.spring.crowdsorcery.rest.RestClient;
 import pl.wojtyna.trainings.spring.crowdsorcery.rest.RestModuleConfiguration;
 
 @Configuration
@@ -25,8 +26,13 @@ public class InvestorModuleConfiguration {
     }
 
     @Bean
-    public InvestorProfileService investorProfileService(RestClient restClient) {
-        return new RestClientInvestorProfileService(restClient);
+    public LocalInvestorProfileRepository localInvestorProfileRepository() {
+        return new FakeInvestorProfileRepository();
+    }
+
+    @Bean
+    public InvestorProfileService investorProfileService(LocalInvestorProfileRepository localInvestorProfileRepository) {
+        return new RepositoryInvestorProfileService(localInvestorProfileRepository);
     }
 
     @Bean

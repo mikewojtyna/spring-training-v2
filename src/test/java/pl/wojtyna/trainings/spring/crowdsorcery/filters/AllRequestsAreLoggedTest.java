@@ -1,6 +1,5 @@
 package pl.wojtyna.trainings.spring.crowdsorcery.filters;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,9 +7,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import pl.wojtyna.trainings.spring.crowdsorcery.external.InvestorProfileRestApiServer;
-
-import java.util.concurrent.CountDownLatch;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasSize;
@@ -27,13 +23,6 @@ class AllRequestsAreLoggedTest {
 
     @Autowired
     private MockMvc mockMvc;
-
-    @BeforeEach
-    void setup() throws Exception {
-        var countDownLatch = new CountDownLatch(1);
-        InvestorProfileRestApiServer.start(server -> countDownLatch.countDown());
-        countDownLatch.await();
-    }
 
     // @formatter:off
     @DisplayName(

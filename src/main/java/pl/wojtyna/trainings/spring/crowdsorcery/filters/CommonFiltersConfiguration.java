@@ -10,6 +10,11 @@ import javax.servlet.Filter;
 public class CommonFiltersConfiguration {
 
     @Bean
+    public Filter benchmarkingFilter() {
+        return new RequestBenchmarkingFilter();
+    }
+
+    @Bean
     public Filter loggingFilter() {
         return new LoggingFilter();
     }
