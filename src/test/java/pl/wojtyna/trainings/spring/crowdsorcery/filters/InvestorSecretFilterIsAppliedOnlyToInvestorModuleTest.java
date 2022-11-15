@@ -7,6 +7,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import pl.wojtyna.trainings.spring.crowdsorcery.testutils.CrowdSorceryTestBase;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasSize;
@@ -20,7 +21,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
     // Task 10 answer: a lot of components are not registered when using @WebMvcTest annotation. WebMvcTest loads only web-related components. All other components need to be mocked or registered manually.
-class InvestorSecretFilterIsAppliedOnlyToInvestorModuleTest {
+class InvestorSecretFilterIsAppliedOnlyToInvestorModuleTest extends CrowdSorceryTestBase {
 
     @Autowired
     private MockMvc mockMvc;

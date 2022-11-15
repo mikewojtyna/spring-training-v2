@@ -34,13 +34,13 @@ public class WhenInvestorIsRegisteredThenNotificationIsSentTest {
         var notificationServiceMock = mock(NotificationService.class);
         var context = new SpringApplicationBuilder().parent(CrowdSorceryRootContextConfiguration.class)
                                                     .web(WebApplicationType.NONE)
+                                                    .profiles("test")
                                                     .properties("spring.main.allow-bean-definition-overriding=true")
                                                     .initializers((ApplicationContextInitializer<GenericApplicationContext>) applicationContext -> applicationContext.registerBean(
                                                         InvestorProfileService.class,
-                                                        () -> (id) -> Optional.of(new InvestorProfile(
-                                                            100,
-                                                            true,
-                                                            "http://localhost:8080?ref=123"))))
+                                                        () -> (id) -> Optional.of(new InvestorProfile(100,
+                                                                                                      true,
+                                                                                                      "http://localhost:8080?ref=123"))))
                                                     .child(NotificationModuleConfiguration.class)
                                                     .web(WebApplicationType.NONE)
                                                     .initializers((ApplicationContextInitializer<GenericApplicationContext>) applicationContext -> applicationContext.registerBean(
