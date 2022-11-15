@@ -44,7 +44,16 @@ public class InvestorRestApi {
                               .findAny();
     }
 
+    @ExceptionHandler(RuntimeException.class)
+    private ResponseEntity<GenericErrorResponse> controllerExceptionHandler(RuntimeException exception) {
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                             .body(new GenericErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase(),
+                                                            exception.getMessage()));
+    }
+
     private record RegisterInvestorErrorResponse(RegisterInvestorRestDto command, String reason) {
 
     }
+
+    private record GenericErrorResponse(String status, String reason) {}
 }

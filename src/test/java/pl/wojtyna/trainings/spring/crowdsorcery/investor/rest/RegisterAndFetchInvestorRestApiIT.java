@@ -107,8 +107,28 @@ class RegisterAndFetchInvestorRestApiIT {
                                                                 .content(requestBody))
                .andExpect(status().isInternalServerError())
                .andExpect(jsonPath("$.reason", is("The reason why investor service failed")))
-               .andExpect(jsonPath("$.command.id", is("10")))
-               .andExpect(jsonPath("$.command.name", is("George")))
+               .andDo(print());
+    }
+
+    // @formatter:off
+    @DisplayName(
+        """
+         given investor service fails when fetching any investor,
+         when GET on /investorModule/api/v0/investors/any-id,
+         then status is 500 and error JSON response is produced
+        """
+    )
+    // @formatter:on
+    @Test
+    void test3() throws Exception {
+        // given
+        doThrow(new RuntimeException("The reason why investor service failed")).when(investorService)
+                                                                               .findAll();
+
+        // when
+        mockMvc.perform(get("/investorModule/api/v0/investors/any-id"))
+               .andExpect(status().isInternalServerError())
+               .andExpect(jsonPath("$.reason", is("The reason why investor service failed")))
                .andDo(print());
     }
 }
