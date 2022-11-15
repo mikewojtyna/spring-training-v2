@@ -1,9 +1,9 @@
 package pl.wojtyna.trainings.spring.crowdsorcery.eventpublisher;
 
-import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
-@SpringBootConfiguration
+@Configuration
 public class EventPublisherModuleConfiguration {
 
     @Bean

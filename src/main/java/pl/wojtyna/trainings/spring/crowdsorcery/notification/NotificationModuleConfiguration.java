@@ -1,13 +1,11 @@
 package pl.wojtyna.trainings.spring.crowdsorcery.notification;
 
-import org.springframework.boot.SpringBootConfiguration;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.mail.MailSender;
 import pl.wojtyna.trainings.spring.crowdsorcery.eventpublisher.SubscriberRegistry;
 
-@SpringBootConfiguration
-@EnableAutoConfiguration
+@Configuration
 public class NotificationModuleConfiguration {
 
     @Bean

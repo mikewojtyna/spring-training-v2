@@ -1,7 +1,7 @@
 package pl.wojtyna.trainings.spring.crowdsorcery.investor;
 
-import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import pl.wojtyna.trainings.spring.crowdsorcery.eventpublisher.EventPublisher;
 import pl.wojtyna.trainings.spring.crowdsorcery.investor.cli.CliAdapter;
@@ -15,7 +15,7 @@ import pl.wojtyna.trainings.spring.crowdsorcery.investor.service.InvestorService
 import pl.wojtyna.trainings.spring.crowdsorcery.rest.RestClient;
 import pl.wojtyna.trainings.spring.crowdsorcery.rest.RestModuleConfiguration;
 
-@SpringBootConfiguration
+@Configuration
 @Import(RestModuleConfiguration.class)
 public class InvestorModuleConfiguration {
 
