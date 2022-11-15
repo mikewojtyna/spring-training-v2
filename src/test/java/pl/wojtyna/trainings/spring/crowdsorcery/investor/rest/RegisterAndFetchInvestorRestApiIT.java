@@ -1,6 +1,7 @@
 package pl.wojtyna.trainings.spring.crowdsorcery.investor.rest;
 
 import com.jayway.jsonpath.JsonPath;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,9 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import pl.wojtyna.trainings.spring.crowdsorcery.external.InvestorProfileRestApiServer;
+
+import java.util.concurrent.CountDownLatch;
 
 import static org.hamcrest.Matchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -23,6 +27,14 @@ class RegisterAndFetchInvestorRestApiIT {
     @Autowired
     private MockMvc mockMvc;
 
+    @BeforeEach
+    void setup() throws Exception {
+        var countDownLatch = new CountDownLatch(1);
+        InvestorProfileRestApiServer.start(server -> countDownLatch.countDown());
+        countDownLatch.await();
+    }
+
+    // @formatter:off
     @DisplayName(
         """
          given JSON request body
@@ -49,13 +61,15 @@ class RegisterAndFetchInvestorRestApiIT {
         var responseBody = mockMvc.perform(post("/investorModule/api/v0/investors").contentType(MediaType.APPLICATION_JSON)
                                                                                    .content(requestBody))
                                   .andExpect(status().isOk())
-                                  .andReturn().getResponse().getContentAsString();
+                                  .andReturn()
+                                  .getResponse()
+                                  .getContentAsString();
 
         // then
         String registeredInvestorId = JsonPath.parse(responseBody).read("$.id");
         mockMvc.perform(get("/investorModule/api/v0/investors/{id}", registeredInvestorId))
                .andExpect(status().isOk())
-               .andExpect(jsonPath("$.id", is(10)))
+               .andExpect(jsonPath("$.id", is("10")))
                .andExpect(jsonPath("$.name", is("George")));
     }
 }

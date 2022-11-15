@@ -9,21 +9,36 @@ import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 
 import java.io.IOException;
+import java.util.function.Consumer;
 
 public class InvestorProfileRestApiServer {
 
     public static void main(String[] args) throws Exception {
-        var server = new Server(8080);
-        ServletContextHandler servletContextHandler = new ServletContextHandler(null, "/investor/api/v0");
-        servletContextHandler.addServlet(new ServletHolder(new InvestorProfileServlet()), "/profiles");
-        server.setHandler(servletContextHandler);
-        try {
-            server.start();
-            server.join();
-        }
-        finally {
-            server.destroy();
-        }
+        start(server -> System.out.println("Investor profile rest API Server started")).join();
+    }
+
+    public static Thread start(Consumer<Server> serverExecutedListener) throws Exception {
+        var thread = new Thread(() -> {
+            var server = new Server(8080);
+            ServletContextHandler servletContextHandler = new ServletContextHandler(null, "/investor/api/v0");
+            servletContextHandler.addServlet(new ServletHolder(new InvestorProfileServlet()), "/profiles");
+            server.setHandler(servletContextHandler);
+            try {
+                try {
+                    server.start();
+                    serverExecutedListener.accept(server);
+                    server.join();
+                }
+                catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            finally {
+                server.destroy();
+            }
+        });
+        thread.start();
+        return thread;
     }
 
     private static class InvestorProfileServlet extends HttpServlet {
