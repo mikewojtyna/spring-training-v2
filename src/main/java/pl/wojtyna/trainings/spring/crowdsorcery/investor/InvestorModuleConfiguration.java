@@ -1,8 +1,10 @@
 package pl.wojtyna.trainings.spring.crowdsorcery.investor;
 
+import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import pl.wojtyna.trainings.spring.crowdsorcery.audit.AuditLog;
 import pl.wojtyna.trainings.spring.crowdsorcery.eventpublisher.EventPublisher;
 import pl.wojtyna.trainings.spring.crowdsorcery.investor.cli.CliAdapter;
 import pl.wojtyna.trainings.spring.crowdsorcery.investor.cli.CliCommandsMapper;
@@ -43,8 +45,14 @@ public class InvestorModuleConfiguration {
     @Bean
     public InvestorService investorService(InvestorRepository investorRepository,
                                            InvestorProfileService investorProfileService,
-                                           EventPublisher eventPublisher) {
-        return new InvestorService(investorRepository, investorProfileService, eventPublisher);
+                                           EventPublisher eventPublisher, ObjectProvider<AuditLog> auditLogProvider) {
+        return auditLogProvider.stream()
+                               .findAny()
+                               .map(auditLog -> new InvestorService(investorRepository,
+                                                                    investorProfileService,
+                                                                    eventPublisher,
+                                                                    auditLog))
+                               .orElse(new InvestorService(investorRepository, investorProfileService, eventPublisher));
     }
 
     @Bean
