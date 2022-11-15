@@ -1,6 +1,7 @@
 package pl.wojtyna.trainings.spring.crowdsorcery.investor.rest;
 
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -9,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class InvestorRestApi {
 
     @PostMapping
-    public void register() {
-        throw new UnsupportedOperationException("Implement this method");
+    public RegisterInvestorResultRestDto register(@RequestBody RegisterInvestorRestDto registerInvestorRestDto) {
+        return new RegisterInvestorResultRestDto(registerInvestorRestDto.id());
     }
 }
