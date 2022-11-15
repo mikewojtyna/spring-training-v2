@@ -1,6 +1,7 @@
 package pl.wojtyna.trainings.spring.crowdsorcery.filters;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.annotation.Order;
 import org.springframework.web.filter.GenericFilterBean;
 
 import javax.servlet.FilterChain;
@@ -10,6 +11,7 @@ import javax.servlet.ServletResponse;
 import java.io.IOException;
 
 @Slf4j
+@Order(0)
 public class LoggingFilter extends GenericFilterBean {
 
     @Override

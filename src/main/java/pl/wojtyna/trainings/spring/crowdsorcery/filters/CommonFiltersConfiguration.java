@@ -15,6 +15,7 @@ public class CommonFiltersConfiguration {
         var filter = new InvestorSecretFilter();
         var registrationBean = new FilterRegistrationBean<>(filter);
         registrationBean.addUrlPatterns("/investorModule/*");
+        registrationBean.setOrder(3);
         return registrationBean;
     }
 
