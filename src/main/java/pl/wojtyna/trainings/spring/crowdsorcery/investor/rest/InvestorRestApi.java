@@ -1,6 +1,5 @@
 package pl.wojtyna.trainings.spring.crowdsorcery.investor.rest;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.wojtyna.trainings.spring.crowdsorcery.investor.service.InvestorService;
@@ -22,14 +21,8 @@ public class InvestorRestApi {
 
     @PostMapping
     public ResponseEntity<RegisterInvestorErrorResponse> register(@RequestBody RegisterInvestorRestDto registerInvestorRestDto) {
-        try {
-            investorService.register(new RegisterInvestor(registerInvestorRestDto.id(),
-                                                          registerInvestorRestDto.name()));
-        }
-        catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                                 .body(new RegisterInvestorErrorResponse(registerInvestorRestDto, e.getMessage()));
-        }
+        investorService.register(new RegisterInvestor(registerInvestorRestDto.id(),
+                                                      registerInvestorRestDto.name()));
         return ResponseEntity.created(URI.create("/investorModule/api/v0/investors/%s".formatted(
                                  registerInvestorRestDto.id())))
                              .build();
@@ -44,16 +37,7 @@ public class InvestorRestApi {
                               .findAny();
     }
 
-    @ExceptionHandler(RuntimeException.class)
-    private ResponseEntity<GenericErrorResponse> controllerExceptionHandler(RuntimeException exception) {
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                             .body(new GenericErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase(),
-                                                            exception.getMessage()));
-    }
-
     private record RegisterInvestorErrorResponse(RegisterInvestorRestDto command, String reason) {
 
     }
-
-    private record GenericErrorResponse(String status, String reason) {}
 }
