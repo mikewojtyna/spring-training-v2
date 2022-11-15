@@ -1,0 +1,37 @@
+package pl.wojtyna.trainings.spring.examples.beans.crowdsorcery.investor.cli;
+
+import org.springframework.stereotype.Component;
+import pl.wojtyna.trainings.spring.examples.beans.crowdsorcery.investor.service.RegisterInvestor;
+
+import java.util.Optional;
+import java.util.stream.Stream;
+
+@Component
+public class SurnameAwareCliCommandsMapper implements CliCommandsMapper {
+
+    @Override
+    public Optional<RegisterInvestor> map(String[] args) {
+        var id = extractIdOrFail(args);
+        var name = extractFirstNameOrFail(args) + tryToExtractSurname(args).map(surname -> " " + surname).orElse("");
+        return Optional.of(new RegisterInvestor(id, name));
+    }
+
+    private Optional<String> tryToExtractSurname(String[] args) {
+        return tryToExtractArg("surname", args);
+    }
+
+    private String extractFirstNameOrFail(String[] args) {
+        return tryToExtractArg("name", args).orElseThrow();
+    }
+
+    private String extractIdOrFail(String[] args) {
+        return tryToExtractArg("id", args).orElseThrow();
+    }
+
+    private Optional<String> tryToExtractArg(String argName, String[] args) {
+        return Stream.of(args)
+                     .filter(arg -> arg.startsWith("-%s=".formatted(argName)))
+                     .findAny()
+                     .map(arg -> arg.split("=")[1]);
+    }
+}

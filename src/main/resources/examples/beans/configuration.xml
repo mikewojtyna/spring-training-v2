@@ -4,32 +4,35 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<bean id="cliCommandsMapper"
-	      class="pl.wojtyna.trainings.spring.crowdsorcery.investor.SurnameAwareCliCommandsMapper"/>
+	      class="pl.wojtyna.trainings.spring.examples.beans.crowdsorcery.investor.cli.SurnameAwareCliCommandsMapper"/>
 	<bean id="cliAdapter"
-	      class="pl.wojtyna.trainings.spring.crowdsorcery.investor.CliAdapter">
+	      class="pl.wojtyna.trainings.spring.examples.beans.crowdsorcery.investor.cli.CliAdapter">
 
 		<constructor-arg index="0" ref="cliCommandsMapper"/>
 		<constructor-arg index="1" ref="investorService"/>
 	</bean>
 	<bean
-		class="pl.wojtyna.trainings.spring.crowdsorcery.investor.CliSpringAdapterRunner">
+		class="pl.wojtyna.trainings.spring.examples.beans.crowdsorcery.investor.cli.CliSpringAdapterRunner">
 		<constructor-arg ref="cliAdapter"/>
 	</bean>
 	<bean id="investorService"
-	      class="pl.wojtyna.trainings.spring.crowdsorcery.investor.InvestorService">
+	      class="pl.wojtyna.trainings.spring.examples.beans.crowdsorcery.investor.service.InvestorService">
 		<constructor-arg index="0" ref="investorRepository"/>
 		<constructor-arg index="1" ref="investorProfileSerivce"/>
+		<constructor-arg index="2" ref="eventPublisher"/>
 	</bean>
 	<bean id="investorRepository"
-	      class="pl.wojtyna.trainings.spring.crowdsorcery.investor.InMemoryInvestorRepository"/>
+	      class="pl.wojtyna.trainings.spring.examples.beans.crowdsorcery.investor.repository.InMemoryInvestorRepository"/>
 	<bean id="investorProfileSerivce"
-	      class="pl.wojtyna.trainings.spring.crowdsorcery.investor.RestClientInvestorProfileService">
+	      class="pl.wojtyna.trainings.spring.examples.beans.crowdsorcery.investor.profile.RestClientInvestorProfileService">
 		<constructor-arg ref="restClient"/>
 	</bean>
 	<bean id="restClient"
-	      class="pl.wojtyna.trainings.spring.crowdsorcery.rest.UnirestClient">
+	      class="pl.wojtyna.trainings.spring.examples.beans.crowdsorcery.rest.UnirestClient">
 		<constructor-arg ref="restResources"/>
 	</bean>
 	<bean id="restResources"
-	      class="pl.wojtyna.trainings.spring.crowdsorcery.rest.HardcodedRestResources"/>
+	      class="pl.wojtyna.trainings.spring.examples.beans.crowdsorcery.rest.HardcodedRestResources"/>
+	<bean id="eventPublisher"
+	      class="pl.wojtyna.trainings.spring.examples.beans.crowdsorcery.eventpublisher.InMemoryEventPublisher"/>
 </beans>

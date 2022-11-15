@@ -6,7 +6,15 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Scope;
 import pl.wojtyna.trainings.spring.crowdsorcery.eventpublisher.EventPublisher;
 import pl.wojtyna.trainings.spring.crowdsorcery.eventpublisher.InMemoryEventPublisher;
-import pl.wojtyna.trainings.spring.crowdsorcery.investor.*;
+import pl.wojtyna.trainings.spring.crowdsorcery.investor.cli.CliAdapter;
+import pl.wojtyna.trainings.spring.crowdsorcery.investor.cli.CliCommandsMapper;
+import pl.wojtyna.trainings.spring.crowdsorcery.investor.cli.CliSpringAdapterRunner;
+import pl.wojtyna.trainings.spring.crowdsorcery.investor.cli.SurnameAwareCliCommandsMapper;
+import pl.wojtyna.trainings.spring.crowdsorcery.investor.profile.RestClientInvestorProfileService;
+import pl.wojtyna.trainings.spring.crowdsorcery.investor.repository.InMemoryInvestorRepository;
+import pl.wojtyna.trainings.spring.crowdsorcery.investor.repository.InvestorRepository;
+import pl.wojtyna.trainings.spring.crowdsorcery.investor.service.InvestorProfileService;
+import pl.wojtyna.trainings.spring.crowdsorcery.investor.service.InvestorService;
 import pl.wojtyna.trainings.spring.crowdsorcery.rest.RestClient;
 import pl.wojtyna.trainings.spring.crowdsorcery.rest.UnirestClient;
 

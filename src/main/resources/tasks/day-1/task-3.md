@@ -18,7 +18,6 @@ So... Let's do this!
    the main method should now look something like this:
 
 ```java
-import pl.wojtyna.trainings.spring.crowdsorcery.investor.CliAdapter;
 
 public class NoSpringApp {
 

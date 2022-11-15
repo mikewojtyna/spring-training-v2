@@ -1,10 +1,12 @@
-package pl.wojtyna.trainings.spring.crowdsorcery.notification;
+package pl.wojtyna.trainings.spring.examples.beans.crowdsorcery.notification;
 
 import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
-import pl.wojtyna.trainings.spring.crowdsorcery.eventpublisher.Event;
-import pl.wojtyna.trainings.spring.crowdsorcery.investor.service.InvestorRegistered;
+import org.springframework.stereotype.Component;
+import pl.wojtyna.trainings.spring.examples.beans.crowdsorcery.eventpublisher.Event;
+import pl.wojtyna.trainings.spring.examples.beans.crowdsorcery.investor.service.InvestorRegistered;
 
+@Component
 public class SimpleMailNotificationService implements NotificationService {
 
     private final MailSender mailSender;

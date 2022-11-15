@@ -6,9 +6,13 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ApplicationContextInitializer;
 import org.springframework.context.support.GenericApplicationContext;
 import pl.wojtyna.trainings.spring.crowdsorcery.CrowdSorceryRootContextConfiguration;
-import pl.wojtyna.trainings.spring.crowdsorcery.investor.InvestorRegistered;
-import pl.wojtyna.trainings.spring.crowdsorcery.investor.InvestorService;
-import pl.wojtyna.trainings.spring.crowdsorcery.investor.RegisterInvestor;
+import pl.wojtyna.trainings.spring.crowdsorcery.investor.profile.InvestorProfile;
+import pl.wojtyna.trainings.spring.crowdsorcery.investor.service.InvestorProfileService;
+import pl.wojtyna.trainings.spring.crowdsorcery.investor.service.InvestorRegistered;
+import pl.wojtyna.trainings.spring.crowdsorcery.investor.service.InvestorService;
+import pl.wojtyna.trainings.spring.crowdsorcery.investor.service.RegisterInvestor;
+
+import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
@@ -29,11 +33,17 @@ public class WhenInvestorIsRegisteredThenNotificationIsSentTest {
         var notificationServiceMock = mock(NotificationService.class);
         var context = new SpringApplicationBuilder().parent(CrowdSorceryRootContextConfiguration.class)
                                                     .properties("spring.main.allow-bean-definition-overriding=true")
+                                                    .initializers((ApplicationContextInitializer<GenericApplicationContext>) applicationContext -> {
+                                                        applicationContext.registerBean(InvestorProfileService.class,
+                                                                                        () -> (id) -> Optional.of(new InvestorProfile(
+                                                                                            100,
+                                                                                            true,
+                                                                                            "http://localhost:8080?ref=123")));
+                                                    })
                                                     .child(NotificationModuleConfiguration.class)
                                                     .initializers((ApplicationContextInitializer<GenericApplicationContext>) applicationContext -> {
-                                                        applicationContext.registerBean(
-                                                            NotificationService.class,
-                                                            () -> notificationServiceMock);
+                                                        applicationContext.registerBean(NotificationService.class,
+                                                                                        () -> notificationServiceMock);
                                                     })
                                                     .run("-id=123", "-name=Henry");
         var investorService = context.getBean(InvestorService.class);
