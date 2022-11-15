@@ -1,7 +1,8 @@
 package pl.wojtyna.trainings.spring.examples.beans.xml;
 
-import org.springframework.boot.SpringApplication;
+import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.annotation.ImportResource;
 
 @SpringBootApplication
@@ -9,6 +10,7 @@ import org.springframework.context.annotation.ImportResource;
 public class InstantiateBeansUsingXml {
 
     public static void main(String[] args) {
-        SpringApplication.run(InstantiateBeansUsingXml.class, args);
+        new SpringApplicationBuilder(InstantiateBeansUsingXml.class).web(WebApplicationType.NONE)
+                                                                    .run(args);
     }
 }

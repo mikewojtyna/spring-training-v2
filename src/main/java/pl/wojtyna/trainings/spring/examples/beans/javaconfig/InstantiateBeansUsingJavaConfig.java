@@ -1,7 +1,8 @@
 package pl.wojtyna.trainings.spring.examples.beans.javaconfig;
 
-import org.springframework.boot.SpringApplication;
 import org.springframework.boot.SpringBootConfiguration;
+import org.springframework.boot.WebApplicationType;
+import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.annotation.Import;
 
 @SpringBootConfiguration
@@ -9,6 +10,6 @@ import org.springframework.context.annotation.Import;
 public class InstantiateBeansUsingJavaConfig {
 
     public static void main(String[] args) {
-        SpringApplication.run(InstantiateBeansUsingJavaConfig.class, args);
+        new SpringApplicationBuilder(InstantiateBeansUsingJavaConfig.class).web(WebApplicationType.NONE).run(args);
     }
 }

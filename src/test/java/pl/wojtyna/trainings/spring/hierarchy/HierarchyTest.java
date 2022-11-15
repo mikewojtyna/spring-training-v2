@@ -3,6 +3,7 @@ package pl.wojtyna.trainings.spring.hierarchy;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
+import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import pl.wojtyna.trainings.spring.hierarchy.root.CoreBeanOne;
 import pl.wojtyna.trainings.spring.hierarchy.root.CoreBeanTwo;
@@ -27,9 +28,13 @@ public class HierarchyTest {
     void test0() {
         var context = new SpringApplicationBuilder()
             .parent(RootContext.class)
+            .web(WebApplicationType.NONE)
             .child(RootChild1Context.class)
+            .web(WebApplicationType.NONE)
             .sibling(RootChild2Context.class)
+            .web(WebApplicationType.NONE)
             .child(RootChild2Child1Context.class)
+            .web(WebApplicationType.NONE)
             .run();
 
         assertThat(context.getBean(CoreBeanOne.class)).isNotNull();
@@ -47,8 +52,11 @@ public class HierarchyTest {
     void test1() {
         var context = new SpringApplicationBuilder()
             .parent(RootContext.class)
+            .web(WebApplicationType.NONE)
             .child(RootChild1Context.class)
+            .web(WebApplicationType.NONE)
             .sibling(RootChild2Context.class)
+            .web(WebApplicationType.NONE)
             .run();
 
         assertThatThrownBy(() -> context.getBean(RootChild1BeanOne.class)).isInstanceOf(NoSuchBeanDefinitionException.class);

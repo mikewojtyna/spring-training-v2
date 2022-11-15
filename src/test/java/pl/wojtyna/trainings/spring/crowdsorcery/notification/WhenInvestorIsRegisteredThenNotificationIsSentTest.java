@@ -2,6 +2,7 @@ package pl.wojtyna.trainings.spring.crowdsorcery.notification;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ApplicationContextInitializer;
 import org.springframework.context.support.GenericApplicationContext;
@@ -32,19 +33,19 @@ public class WhenInvestorIsRegisteredThenNotificationIsSentTest {
         // given
         var notificationServiceMock = mock(NotificationService.class);
         var context = new SpringApplicationBuilder().parent(CrowdSorceryRootContextConfiguration.class)
+                                                    .web(WebApplicationType.NONE)
                                                     .properties("spring.main.allow-bean-definition-overriding=true")
-                                                    .initializers((ApplicationContextInitializer<GenericApplicationContext>) applicationContext -> {
-                                                        applicationContext.registerBean(InvestorProfileService.class,
-                                                                                        () -> (id) -> Optional.of(new InvestorProfile(
-                                                                                            100,
-                                                                                            true,
-                                                                                            "http://localhost:8080?ref=123")));
-                                                    })
+                                                    .initializers((ApplicationContextInitializer<GenericApplicationContext>) applicationContext -> applicationContext.registerBean(
+                                                        InvestorProfileService.class,
+                                                        () -> (id) -> Optional.of(new InvestorProfile(
+                                                            100,
+                                                            true,
+                                                            "http://localhost:8080?ref=123"))))
                                                     .child(NotificationModuleConfiguration.class)
-                                                    .initializers((ApplicationContextInitializer<GenericApplicationContext>) applicationContext -> {
-                                                        applicationContext.registerBean(NotificationService.class,
-                                                                                        () -> notificationServiceMock);
-                                                    })
+                                                    .web(WebApplicationType.NONE)
+                                                    .initializers((ApplicationContextInitializer<GenericApplicationContext>) applicationContext -> applicationContext.registerBean(
+                                                        NotificationService.class,
+                                                        () -> notificationServiceMock))
                                                     .run("-id=123", "-name=Henry");
         var investorService = context.getBean(InvestorService.class);
 

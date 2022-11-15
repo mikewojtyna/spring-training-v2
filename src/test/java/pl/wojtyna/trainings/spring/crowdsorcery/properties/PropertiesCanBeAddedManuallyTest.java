@@ -2,6 +2,7 @@ package pl.wojtyna.trainings.spring.crowdsorcery.properties;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.core.env.Environment;
 import pl.wojtyna.trainings.spring.crowdsorcery.CrowdSorceryApp;
@@ -21,6 +22,7 @@ public class PropertiesCanBeAddedManuallyTest {
     @Test
     void test() {
         var context = new SpringApplicationBuilder().sources(CrowdSorceryApp.class)
+                                                    .web(WebApplicationType.NONE)
                                                     .properties("someProperty=A", "otherProperty=B")
                                                     .run();
 
