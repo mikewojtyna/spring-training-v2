@@ -13,4 +13,9 @@ public class CommonFiltersConfiguration {
     public Filter loggingFilter() {
         return new LoggingFilter();
     }
+
+    @Bean
+    public Filter dangerousFilter() {
+        return new DangerousFilter();
+    }
 }
