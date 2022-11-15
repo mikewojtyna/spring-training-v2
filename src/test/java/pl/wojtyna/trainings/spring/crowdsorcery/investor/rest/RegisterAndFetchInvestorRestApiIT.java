@@ -49,7 +49,10 @@ class RegisterAndFetchInvestorRestApiIT {
 
         // when
         var registeredInvestorLocation = mockMvc.perform(post("/investorModule/api/v0/investors").contentType(MediaType.APPLICATION_JSON)
-                                                                                                 .content(requestBody))
+                                                                                                 .content(requestBody)
+                                                                                                 .header(
+                                                                                                     "InvestorSecret",
+                                                                                                     "aspecialsecret"))
                                                 .andExpect(status().isCreated())
                                                 .andDo(print())
                                                 .andReturn()
@@ -58,7 +61,7 @@ class RegisterAndFetchInvestorRestApiIT {
 
         // then
         assertThat(registeredInvestorLocation).isNotNull();
-        mockMvc.perform(get(registeredInvestorLocation))
+        mockMvc.perform(get(registeredInvestorLocation).header("InvestorSecret", "aspecialsecret"))
                .andExpect(status().isOk())
                .andExpect(jsonPath("$.id", is("10")))
                .andExpect(jsonPath("$.name", is("George")));

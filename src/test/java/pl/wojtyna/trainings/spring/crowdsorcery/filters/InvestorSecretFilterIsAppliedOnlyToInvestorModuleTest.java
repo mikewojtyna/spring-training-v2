@@ -16,10 +16,10 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@DisplayName("All requests are logged")
+@DisplayName("Investor secret filter is applied only to investor module")
 @SpringBootTest
 @AutoConfigureMockMvc
-class AllRequestsAreLoggedTest {
+class InvestorSecretFilterIsAppliedOnlyToInvestorModuleTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -27,7 +27,7 @@ class AllRequestsAreLoggedTest {
     // @formatter:off
     @DisplayName(
         """
-         investor requests are logged
+         investor requests "protected" with correct InvestorHeader are allowed
         """
     )
     // @formatter:on
@@ -61,7 +61,62 @@ class AllRequestsAreLoggedTest {
     // @formatter:off
     @DisplayName(
         """
-         borrower requests are logged
+         investor requests without InvestorHeader are rejected
+        """
+    )
+    // @formatter:on
+    @Test
+    void test3() throws Exception {
+        var requestBody = """
+                          {
+                             "id": 10,
+                             "name": "George"
+                          }
+                          """;
+        // this should be logged by logging filter
+        mockMvc.perform(post("/investorModule/api/v0/investors").contentType(MediaType.APPLICATION_JSON)
+                                                                .content(requestBody))
+               .andExpect(status().isForbidden())
+               .andExpect(jsonPath("$.reason", is("REJECTED_BAD_SECRET")));
+
+        // this should be logged by logging filter
+        mockMvc.perform(get("/investorModule/api/v0/investors/any-id"))
+               .andExpect(status().isForbidden())
+               .andExpect(jsonPath("$.reason", is("REJECTED_BAD_SECRET")));
+    }
+
+    // @formatter:off
+    @DisplayName(
+        """
+         investor requests with incorrect InvestorHeader value are rejected
+        """
+    )
+    // @formatter:on
+    @Test
+    void test4() throws Exception {
+        var requestBody = """
+                          {
+                             "id": 10,
+                             "name": "George"
+                          }
+                          """;
+        // this should be logged by logging filter
+        mockMvc.perform(post("/investorModule/api/v0/investors").contentType(MediaType.APPLICATION_JSON)
+                                                                .content(requestBody)
+                                                                .header("InvestorSecret", "badsecret"))
+               .andExpect(status().isForbidden())
+               .andExpect(jsonPath("$.reason", is("REJECTED_BAD_SECRET")));
+
+        // this should be logged by logging filter
+        mockMvc.perform(get("/investorModule/api/v0/investors/any-id").header("InvestorSecret", "badsecret"))
+               .andExpect(status().isForbidden())
+               .andExpect(jsonPath("$.reason", is("REJECTED_BAD_SECRET")));
+    }
+
+    // @formatter:off
+    @DisplayName(
+        """
+         borrower requests don't need to be "protected" with secret header
         """
     )
     // @formatter:on
