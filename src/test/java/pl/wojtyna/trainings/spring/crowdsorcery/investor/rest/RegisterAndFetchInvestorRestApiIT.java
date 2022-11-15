@@ -1,6 +1,5 @@
 package pl.wojtyna.trainings.spring.crowdsorcery.investor.rest;
 
-import com.jayway.jsonpath.JsonPath;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -58,16 +57,15 @@ class RegisterAndFetchInvestorRestApiIT {
                           """;
 
         // when
-        var responseBody = mockMvc.perform(post("/investorModule/api/v0/investors").contentType(MediaType.APPLICATION_JSON)
-                                                                                   .content(requestBody))
-                                  .andExpect(status().isOk())
-                                  .andReturn()
-                                  .getResponse()
-                                  .getContentAsString();
+        var registeredInvestorLocation = mockMvc.perform(post("/investorModule/api/v0/investors").contentType(MediaType.APPLICATION_JSON)
+                                                                                                 .content(requestBody))
+                                                .andExpect(status().isCreated())
+                                                .andReturn()
+                                                .getResponse()
+                                                .getHeader("Location");
 
         // then
-        String registeredInvestorId = JsonPath.parse(responseBody).read("$.id");
-        mockMvc.perform(get("/investorModule/api/v0/investors/{id}", registeredInvestorId))
+        mockMvc.perform(get(registeredInvestorLocation))
                .andExpect(status().isOk())
                .andExpect(jsonPath("$.id", is("10")))
                .andExpect(jsonPath("$.name", is("George")));
