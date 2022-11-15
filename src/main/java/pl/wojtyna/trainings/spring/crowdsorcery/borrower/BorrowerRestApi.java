@@ -16,4 +16,10 @@ public class BorrowerRestApi {
                        new Borrower("456", "Henry Borrower"),
                        new Borrower("789", "Martin Borrower"));
     }
+
+    @GetMapping("/confidential")
+    public List<Borrower> fetchConfidentialBorrowers() {
+        return List.of(new Borrower("111", "[Confidential] George Borrower"),
+                       new Borrower("222", "[Confidential] Henry Borrower"));
+    }
 }
