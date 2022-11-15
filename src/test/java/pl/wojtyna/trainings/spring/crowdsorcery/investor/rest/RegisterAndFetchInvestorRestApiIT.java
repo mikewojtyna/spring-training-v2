@@ -10,15 +10,19 @@ import org.springframework.test.web.servlet.MockMvc;
 import pl.wojtyna.trainings.spring.crowdsorcery.investor.profile.InvestorProfile;
 import pl.wojtyna.trainings.spring.crowdsorcery.investor.service.Investor;
 import pl.wojtyna.trainings.spring.crowdsorcery.investor.service.InvestorService;
+import pl.wojtyna.trainings.spring.crowdsorcery.investor.service.RegisterInvestor;
 import pl.wojtyna.trainings.spring.crowdsorcery.notification.NotificationService;
 
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.is;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -75,5 +79,36 @@ class RegisterAndFetchInvestorRestApiIT {
                .andExpect(status().isOk())
                .andExpect(jsonPath("$.id", is("10")))
                .andExpect(jsonPath("$.name", is("George")));
+    }
+
+    // @formatter:off
+    @DisplayName(
+        """
+         given investor service fails when registering new investor,
+         when POST on /investorModule/api/v0/investors,
+         then status is 500 and error JSON response is produced
+        """
+    )
+    // @formatter:on
+    @Test
+    void test2() throws Exception {
+        // given
+        var requestBody = """
+                          {
+                             "id": 10,
+                             "name": "George"
+                          }
+                          """;
+        doThrow(new RuntimeException("The reason why investor service failed")).when(investorService)
+                                                                               .register(any(RegisterInvestor.class));
+
+        // when
+        mockMvc.perform(post("/investorModule/api/v0/investors").contentType(MediaType.APPLICATION_JSON)
+                                                                .content(requestBody))
+               .andExpect(status().isInternalServerError())
+               .andExpect(jsonPath("$.reason", is("The reason why investor service failed")))
+               .andExpect(jsonPath("$.command.id", is("10")))
+               .andExpect(jsonPath("$.command.name", is("George")))
+               .andDo(print());
     }
 }
