@@ -19,6 +19,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @DisplayName("Investor secret filter is applied only to investor module")
 @SpringBootTest
 @AutoConfigureMockMvc
+    // Task 10 answer: a lot of components are not registered when using @WebMvcTest annotation. WebMvcTest loads only web-related components. All other components need to be mocked or registered manually.
 class InvestorSecretFilterIsAppliedOnlyToInvestorModuleTest {
 
     @Autowired
