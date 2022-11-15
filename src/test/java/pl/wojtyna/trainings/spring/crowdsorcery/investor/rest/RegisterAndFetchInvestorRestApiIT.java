@@ -1,4 +1,4 @@
-package pl.wojtyna.trainings.spring.crowdsorcery.rest;
+package pl.wojtyna.trainings.spring.crowdsorcery.investor.rest;
 
 import com.jayway.jsonpath.JsonPath;
 import org.junit.jupiter.api.DisplayName;
