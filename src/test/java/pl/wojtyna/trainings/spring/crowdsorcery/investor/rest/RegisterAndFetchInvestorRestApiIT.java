@@ -17,7 +17,7 @@ import pl.wojtyna.trainings.spring.crowdsorcery.notification.NotificationService
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
@@ -131,6 +131,34 @@ class RegisterAndFetchInvestorRestApiIT {
         mockMvc.perform(get("/investorModule/api/v0/investors/any-id"))
                .andExpect(status().isInternalServerError())
                .andExpect(jsonPath("$.reason", is("The reason why investor service failed")))
+               .andDo(print());
+    }
+
+    // @formatter:off
+    @DisplayName(
+        """
+         given command with empty name and null id
+         when POST on /investorModule/api/v0/investors,
+         then status is 400 and json response with all field errors is returned
+        """
+    )
+    // @formatter:on
+    @Test
+    void test4() throws Exception {
+        // given
+        var requestBody = """
+                          {
+                             "name": ""
+                          }
+                          """;
+
+        // when
+        mockMvc.perform(post("/investorModule/api/v0/investors").contentType(MediaType.APPLICATION_JSON)
+                                                                .content(requestBody))
+               .andExpect(status().isBadRequest())
+               .andExpect(jsonPath("$.errors", is(not(emptyOrNullString()))))
+               .andExpect(jsonPath("$.errors.name", is(not(empty()))))
+               .andExpect(jsonPath("$.errors.id", is(not(empty()))))
                .andDo(print());
     }
 }

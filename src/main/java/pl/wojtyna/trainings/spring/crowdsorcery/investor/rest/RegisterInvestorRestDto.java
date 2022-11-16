@@ -1,4 +1,6 @@
 package pl.wojtyna.trainings.spring.crowdsorcery.investor.rest;
 
-public record RegisterInvestorRestDto(String id, String name) {
+import javax.validation.constraints.NotEmpty;
+
+public record RegisterInvestorRestDto(@NotEmpty String id, @NotEmpty String name) {
 }
