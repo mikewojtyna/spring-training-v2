@@ -34,6 +34,14 @@ public class RegisteredInvestorsCatalogRestApi {
         return repository.findAllByNameLength(nameLength).map(this::toDto);
     }
 
+    @GetMapping(params = "nameLengthRange")
+    public Stream<InvestorInCatalogDto> findByNameLengthRange(@RequestParam("nameLengthRange") String nameLengthRange) {
+        var rangeArray = nameLengthRange.split("-");
+        var start = Integer.parseInt(rangeArray[0]);
+        var end = Integer.parseInt(rangeArray[1]);
+        return repository.findAllByNameLengthRange(start, end).map(this::toDto);
+    }
+
     private InvestorInCatalogDto toDto(Investor investor) {
         var profile = investor.investorProfile();
         return new InvestorInCatalogDto(investor.id(), investor.name(), profile.score(), profile.isVip(),

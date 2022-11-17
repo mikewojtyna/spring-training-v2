@@ -117,6 +117,39 @@ class InvestorCatalogRestApiTest extends CrowdSorceryTestBase {
                                       "Martin"));
     }
 
+    // @formatter:off
+    @DisplayName(
+        """         
+         investors can be found by name length range
+        """
+    )
+    // @formatter:on
+    @Test
+    void test4() throws Exception {
+        // given
+        registerInvestorWithName("Eddy");
+        registerInvestorWithName("Riker");
+        registerInvestorWithName("Martin");
+        registerInvestorWithName("Adelard");
+        registerInvestorWithName("Tom");
+
+        // when
+        var foundInvestors = queryByNameHavingLengthBetween(4, 6);
+
+        // then
+        assertThat(foundInvestors).hasSize(3)
+                                  .anySatisfy(investorInCatalogDto -> assertThat(investorInCatalogDto.name()).isEqualTo(
+                                      "Eddy"))
+                                  .anySatisfy(investorInCatalogDto -> assertThat(investorInCatalogDto.name()).isEqualTo(
+                                      "Riker"))
+                                  .anySatisfy(investorInCatalogDto -> assertThat(investorInCatalogDto.name()).isEqualTo(
+                                      "Martin"));
+    }
+
+    private List<InvestorInCatalogDto> queryByNameHavingLengthBetween(int start, int end) throws Exception {
+        return queryByParam("nameLengthRange", "%s-%s".formatted(start, end));
+    }
+
     private List<InvestorInCatalogDto> queryByNameHavingLength(int length) throws Exception {
         return queryByParam("exactNameLength", String.valueOf(length));
     }
