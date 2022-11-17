@@ -13,13 +13,12 @@ import pl.wojtyna.trainings.spring.crowdsorcery.investor.profile.RepositoryInves
 import pl.wojtyna.trainings.spring.crowdsorcery.investor.repository.FakeInvestorProfileRepository;
 import pl.wojtyna.trainings.spring.crowdsorcery.investor.repository.InvestorRepository;
 import pl.wojtyna.trainings.spring.crowdsorcery.investor.repository.LocalInvestorProfileRepository;
-import pl.wojtyna.trainings.spring.crowdsorcery.investor.repository.jpa.EntityManagerInvestorRepository;
 import pl.wojtyna.trainings.spring.crowdsorcery.investor.repository.jpa.InitialInvestorsPopulator;
+import pl.wojtyna.trainings.spring.crowdsorcery.investor.repository.jpa.SpringDataBackedInvestorRepository;
+import pl.wojtyna.trainings.spring.crowdsorcery.investor.repository.jpa.SpringInvestorEntityRepository;
 import pl.wojtyna.trainings.spring.crowdsorcery.investor.service.InvestorProfileService;
 import pl.wojtyna.trainings.spring.crowdsorcery.investor.service.InvestorService;
 import pl.wojtyna.trainings.spring.crowdsorcery.rest.RestModuleConfiguration;
-
-import javax.persistence.EntityManager;
 
 @Configuration
 @Import(RestModuleConfiguration.class)
@@ -46,8 +45,8 @@ public class InvestorModuleConfiguration {
     }
 
     @Bean
-    public InvestorRepository investorRepository(EntityManager entityManager) {
-        return new EntityManagerInvestorRepository(entityManager);
+    public InvestorRepository investorRepository(SpringInvestorEntityRepository springRepository) {
+        return new SpringDataBackedInvestorRepository(springRepository);
     }
 
     @Bean
