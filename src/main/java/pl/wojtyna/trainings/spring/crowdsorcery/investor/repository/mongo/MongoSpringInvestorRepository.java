@@ -1,6 +1,7 @@
 package pl.wojtyna.trainings.spring.crowdsorcery.investor.repository.mongo;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.data.mongodb.repository.Query;
 import pl.wojtyna.trainings.spring.crowdsorcery.investor.service.Investor;
 
 import java.util.stream.Stream;
@@ -16,4 +17,7 @@ public interface MongoSpringInvestorRepository extends MongoRepository<Investor,
     Stream<Investor> findAllByInvestorProfileScore(int score);
 
     Stream<Investor> findByInvestorProfileScoreGreaterThanEqual(int score);
+
+    @Query("{ 'investorProfile.referralLink': {$regex: 'refLink=:#{#refLink}'} }")
+    Stream<Investor> findByInvestorProfileReferralLink(String refLink);
 }

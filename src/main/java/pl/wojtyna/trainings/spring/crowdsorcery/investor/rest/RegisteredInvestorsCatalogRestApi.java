@@ -57,6 +57,11 @@ public class RegisteredInvestorsCatalogRestApi {
         return repository.findByInvestorProfileScoreGreaterThanEqual(score).map(this::toDto);
     }
 
+    @GetMapping(params = "refLink")
+    public Stream<InvestorInCatalogDto> findByRefLink(@RequestParam("refLink") String refLink) {
+        return repository.findByInvestorProfileReferralLink(refLink).map(this::toDto);
+    }
+
     private InvestorInCatalogDto toDto(Investor investor) {
         var profile = investor.investorProfile();
         return new InvestorInCatalogDto(investor.id(), investor.name(), profile.score(), profile.isVip(),

@@ -246,6 +246,41 @@ class InvestorCatalogRestApiTest extends CrowdSorceryTestBase {
                                       "Henry"));
     }
 
+    // @formatter:off
+    @DisplayName(
+        """         
+         investors can be found by ref link
+        """
+    )
+    // @formatter:on
+    @Test
+    void test9() throws Exception {
+        // given
+        registerNonVipInvestorWithNameAndRefLinkId("George", "123");
+        registerNonVipInvestorWithNameAndRefLinkId("Martin", "456");
+        registerNonVipInvestorWithNameAndRefLinkId("Henry", "456");
+
+        // when
+        var foundInvestors = queryByRefLinkId("456");
+
+        // then
+        assertThat(foundInvestors).hasSize(2)
+                                  .anySatisfy(investorInCatalogDto -> assertThat(investorInCatalogDto.name()).isEqualTo(
+                                      "Martin"))
+                                  .anySatisfy(investorInCatalogDto -> assertThat(investorInCatalogDto.name()).isEqualTo(
+                                      "Henry"));
+    }
+
+    private List<InvestorInCatalogDto> queryByRefLinkId(String refLinkId) throws Exception {
+        return queryByParam("refLink", refLinkId);
+    }
+
+    private void registerNonVipInvestorWithNameAndRefLinkId(String name, String refLinkId) {
+        investorRepository.save(new Investor(uniqueId(),
+                                             name,
+                                             new InvestorProfile(10, true, "wojtyna.pl?refLink=" + refLinkId)));
+    }
+
     private List<InvestorInCatalogDto> queryByScoreGreaterThanOrEqualTo(int score) throws Exception {
         return queryByParam("scoreGtOrEq", String.valueOf(score));
     }
