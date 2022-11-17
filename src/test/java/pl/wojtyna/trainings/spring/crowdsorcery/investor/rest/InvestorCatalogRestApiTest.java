@@ -198,6 +198,39 @@ class InvestorCatalogRestApiTest extends CrowdSorceryTestBase {
                                       "Martin"));
     }
 
+    // @formatter:off
+    @DisplayName(
+        """         
+         investors can be found by exact score value
+        """
+    )
+    // @formatter:on
+    @Test
+    void test7() throws Exception {
+        // given
+        registerNonVipInvestorWithNameAndScore("George", 15);
+        registerNonVipInvestorWithNameAndScore("Martin", 20);
+        registerNonVipInvestorWithNameAndScore("Henry", 30);
+
+        // when
+        var foundInvestors = queryByScoreExactly(20);
+
+        // then
+        assertThat(foundInvestors).hasSize(1)
+                                  .anySatisfy(investorInCatalogDto -> assertThat(investorInCatalogDto.name()).isEqualTo(
+                                      "Martin"));
+    }
+
+    private List<InvestorInCatalogDto> queryByScoreExactly(int score) throws Exception {
+        return queryByParam("exactScore", String.valueOf(score));
+    }
+
+    private void registerNonVipInvestorWithNameAndScore(String name, int score) {
+        investorRepository.save(new Investor(uniqueId(),
+                                             name,
+                                             new InvestorProfile(score, true, "wojtyna.pl?refLink=456")));
+    }
+
     private List<InvestorInCatalogDto> queryNoVips() throws Exception {
         return queryByParam("vipsOnly", "false");
     }

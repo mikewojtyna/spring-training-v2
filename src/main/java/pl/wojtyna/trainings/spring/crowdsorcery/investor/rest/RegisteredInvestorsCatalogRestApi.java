@@ -47,6 +47,11 @@ public class RegisteredInvestorsCatalogRestApi {
         return repository.findAllByInvestorProfileIsVip(onlyVips).map(this::toDto);
     }
 
+    @GetMapping(params = "exactScore")
+    public Stream<InvestorInCatalogDto> findByExactScore(@RequestParam("exactScore") int score) {
+        return repository.findAllByInvestorProfileScore(score).map(this::toDto);
+    }
+
     private InvestorInCatalogDto toDto(Investor investor) {
         var profile = investor.investorProfile();
         return new InvestorInCatalogDto(investor.id(), investor.name(), profile.score(), profile.isVip(),
