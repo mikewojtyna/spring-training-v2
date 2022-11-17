@@ -11,17 +11,22 @@ import java.util.stream.Stream;
 
 @RestController
 @RequestMapping("/investorModule/api/v0/investors")
-public class RegisteredInvestorsRestApiCatalog {
+public class RegisteredInvestorsCatalogRestApi {
 
     private final MongoSpringInvestorRepository repository;
 
-    public RegisteredInvestorsRestApiCatalog(MongoSpringInvestorRepository repository) {
+    public RegisteredInvestorsCatalogRestApi(MongoSpringInvestorRepository repository) {
         this.repository = repository;
     }
 
     @GetMapping(params = "exactName")
     public Stream<InvestorInCatalogDto> findByName(@RequestParam("exactName") String name) {
         return repository.findAllByName(name).map(this::toDto);
+    }
+
+    @GetMapping(params = "nameContaining")
+    public Stream<InvestorInCatalogDto> findByNameContaining(@RequestParam("nameContaining") String subString) {
+        return repository.findAllByNameContaining(subString).map(this::toDto);
     }
 
     private InvestorInCatalogDto toDto(Investor investor) {

@@ -8,4 +8,6 @@ import java.util.stream.Stream;
 public interface MongoSpringInvestorRepository extends MongoRepository<Investor, String> {
 
     Stream<Investor> findAllByName(String name);
+
+    Stream<Investor> findAllByNameContaining(String substring);
 }

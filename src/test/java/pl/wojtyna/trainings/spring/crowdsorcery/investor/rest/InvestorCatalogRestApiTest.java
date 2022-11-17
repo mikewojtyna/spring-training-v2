@@ -51,7 +51,7 @@ class InvestorCatalogRestApiTest extends CrowdSorceryTestBase {
         registerInvestorWithName("Martin");
 
         // when
-        List<InvestorInCatalogDto> foundInvestors = queryByName("George");
+        List<InvestorInCatalogDto> foundInvestors = queryByNameExactly("George");
 
         // then
         assertThat(foundInvestors).hasSize(1)
@@ -59,7 +59,7 @@ class InvestorCatalogRestApiTest extends CrowdSorceryTestBase {
                                       "George"));
 
         // when
-        foundInvestors = queryByName("Martin");
+        foundInvestors = queryByNameExactly("Martin");
 
         // then
         assertThat(foundInvestors).hasSize(2)
@@ -67,9 +67,41 @@ class InvestorCatalogRestApiTest extends CrowdSorceryTestBase {
                                       "Martin"));
     }
 
-    private List<InvestorInCatalogDto> queryByName(String name) throws Exception {
-        return new ObjectMapper().readValue(mockMvc.perform(get("/investorModule/api/v0/investors").param("exactName",
-                                                                                                          name)
+    // @formatter:off
+    @DisplayName(
+        """         
+         investors can be found by name containing the given string
+        """
+    )
+    // @formatter:on
+    @Test
+    void test2() throws Exception {
+        // given
+        registerInvestorWithName("George");
+        registerInvestorWithName("Porgie");
+        registerInvestorWithName("Martin");
+
+        // when
+        List<InvestorInCatalogDto> foundInvestors = queryByNameContaining("or");
+
+        // then
+        assertThat(foundInvestors).hasSize(2)
+                                  .anySatisfy(investorInCatalogDto -> assertThat(investorInCatalogDto.name()).isEqualTo(
+                                      "George"))
+                                  .anySatisfy(investorInCatalogDto -> assertThat(investorInCatalogDto.name()).isEqualTo(
+                                      "Porgie"));
+    }
+
+    private List<InvestorInCatalogDto> queryByNameExactly(String name) throws Exception {
+        return queryByParam("exactName", name);
+    }
+
+    private List<InvestorInCatalogDto> queryByNameContaining(String subString) throws Exception {
+        return queryByParam("nameContaining", subString);
+    }
+
+    private List<InvestorInCatalogDto> queryByParam(String param, String value) throws Exception {
+        return new ObjectMapper().readValue(mockMvc.perform(get("/investorModule/api/v0/investors").param(param, value)
                                                                                                    .header(
                                                                                                        "InvestorSecret",
                                                                                                        "aspecialsecret"))
