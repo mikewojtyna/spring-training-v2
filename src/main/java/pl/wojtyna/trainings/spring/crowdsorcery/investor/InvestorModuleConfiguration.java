@@ -4,7 +4,6 @@ import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
-import org.springframework.jdbc.core.JdbcTemplate;
 import pl.wojtyna.trainings.spring.crowdsorcery.audit.AuditLog;
 import pl.wojtyna.trainings.spring.crowdsorcery.eventpublisher.EventPublisher;
 import pl.wojtyna.trainings.spring.crowdsorcery.investor.cli.CliAdapter;
@@ -13,11 +12,13 @@ import pl.wojtyna.trainings.spring.crowdsorcery.investor.cli.SurnameAwareCliComm
 import pl.wojtyna.trainings.spring.crowdsorcery.investor.profile.RepositoryInvestorProfileService;
 import pl.wojtyna.trainings.spring.crowdsorcery.investor.repository.FakeInvestorProfileRepository;
 import pl.wojtyna.trainings.spring.crowdsorcery.investor.repository.InvestorRepository;
-import pl.wojtyna.trainings.spring.crowdsorcery.investor.repository.JdbcInvestorRepository;
 import pl.wojtyna.trainings.spring.crowdsorcery.investor.repository.LocalInvestorProfileRepository;
+import pl.wojtyna.trainings.spring.crowdsorcery.investor.repository.jpa.EntityManagerInvestorRepository;
 import pl.wojtyna.trainings.spring.crowdsorcery.investor.service.InvestorProfileService;
 import pl.wojtyna.trainings.spring.crowdsorcery.investor.service.InvestorService;
 import pl.wojtyna.trainings.spring.crowdsorcery.rest.RestModuleConfiguration;
+
+import javax.persistence.EntityManager;
 
 @Configuration
 @Import(RestModuleConfiguration.class)
@@ -39,8 +40,8 @@ public class InvestorModuleConfiguration {
     }
 
     @Bean
-    public InvestorRepository investorRepository(JdbcTemplate jdbcTemplate) {
-        return new JdbcInvestorRepository(jdbcTemplate);
+    public InvestorRepository investorRepository(EntityManager entityManager) {
+        return new EntityManagerInvestorRepository(entityManager);
     }
 
     @Bean
