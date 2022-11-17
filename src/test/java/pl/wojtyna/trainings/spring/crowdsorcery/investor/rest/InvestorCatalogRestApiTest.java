@@ -46,9 +46,9 @@ class InvestorCatalogRestApiTest extends CrowdSorceryTestBase {
     @Test
     void test() throws Exception {
         // given
-        registerInvestorWithName("George");
-        registerInvestorWithName("Martin");
-        registerInvestorWithName("Martin");
+        registerNonVipInvestorWithName("George");
+        registerNonVipInvestorWithName("Martin");
+        registerNonVipInvestorWithName("Martin");
 
         // when
         var foundInvestors = queryByNameExactly("George");
@@ -77,9 +77,9 @@ class InvestorCatalogRestApiTest extends CrowdSorceryTestBase {
     @Test
     void test2() throws Exception {
         // given
-        registerInvestorWithName("George");
-        registerInvestorWithName("Porgie");
-        registerInvestorWithName("Martin");
+        registerNonVipInvestorWithName("George");
+        registerNonVipInvestorWithName("Porgie");
+        registerNonVipInvestorWithName("Martin");
 
         // when
         var foundInvestors = queryByNameContaining("or");
@@ -102,9 +102,9 @@ class InvestorCatalogRestApiTest extends CrowdSorceryTestBase {
     @Test
     void test3() throws Exception {
         // given
-        registerInvestorWithName("George");
-        registerInvestorWithName("Tom");
-        registerInvestorWithName("Martin");
+        registerNonVipInvestorWithName("George");
+        registerNonVipInvestorWithName("Tom");
+        registerNonVipInvestorWithName("Martin");
 
         // when
         var foundInvestors = queryByNameHavingLength(6);
@@ -127,11 +127,11 @@ class InvestorCatalogRestApiTest extends CrowdSorceryTestBase {
     @Test
     void test4() throws Exception {
         // given
-        registerInvestorWithName("Eddy");
-        registerInvestorWithName("Riker");
-        registerInvestorWithName("Martin");
-        registerInvestorWithName("Adelard");
-        registerInvestorWithName("Tom");
+        registerNonVipInvestorWithName("Eddy");
+        registerNonVipInvestorWithName("Riker");
+        registerNonVipInvestorWithName("Martin");
+        registerNonVipInvestorWithName("Adelard");
+        registerNonVipInvestorWithName("Tom");
 
         // when
         var foundInvestors = queryByNameHavingLengthBetween(4, 6);
@@ -144,6 +144,72 @@ class InvestorCatalogRestApiTest extends CrowdSorceryTestBase {
                                       "Riker"))
                                   .anySatisfy(investorInCatalogDto -> assertThat(investorInCatalogDto.name()).isEqualTo(
                                       "Martin"));
+    }
+
+    // @formatter:off
+    @DisplayName(
+        """         
+         only VIP investors can be found
+        """
+    )
+    // @formatter:on
+    @Test
+    void test5() throws Exception {
+        // given
+        registerNonVipInvestorWithName("George");
+        registerVipInvestorWithName("Tom");
+        registerVipInvestorWithName("Andy");
+        registerNonVipInvestorWithName("Martin");
+
+        // when
+        var foundInvestors = queryOnlyVips();
+
+        // then
+        assertThat(foundInvestors).hasSize(2)
+                                  .anySatisfy(investorInCatalogDto -> assertThat(investorInCatalogDto.name()).isEqualTo(
+                                      "Tom"))
+                                  .anySatisfy(investorInCatalogDto -> assertThat(investorInCatalogDto.name()).isEqualTo(
+                                      "Andy"));
+    }
+
+    // @formatter:off
+    @DisplayName(
+        """         
+         only non-VIP investors can be found
+        """
+    )
+    // @formatter:on
+    @Test
+    void test6() throws Exception {
+        // given
+        registerNonVipInvestorWithName("George");
+        registerVipInvestorWithName("Tom");
+        registerVipInvestorWithName("Andy");
+        registerNonVipInvestorWithName("Martin");
+
+        // when
+        var foundInvestors = queryNoVips();
+
+        // then
+        assertThat(foundInvestors).hasSize(2)
+                                  .anySatisfy(investorInCatalogDto -> assertThat(investorInCatalogDto.name()).isEqualTo(
+                                      "George"))
+                                  .anySatisfy(investorInCatalogDto -> assertThat(investorInCatalogDto.name()).isEqualTo(
+                                      "Martin"));
+    }
+
+    private List<InvestorInCatalogDto> queryNoVips() throws Exception {
+        return queryByParam("vipsOnly", "false");
+    }
+
+    private List<InvestorInCatalogDto> queryOnlyVips() throws Exception {
+        return queryByParam("vipsOnly", "true");
+    }
+
+    private void registerVipInvestorWithName(String name) {
+        investorRepository.save(new Investor(uniqueId(),
+                                             name,
+                                             new InvestorProfile(20, true, "wojtyna.pl?refLink=456")));
     }
 
     private List<InvestorInCatalogDto> queryByNameHavingLengthBetween(int start, int end) throws Exception {
@@ -173,7 +239,7 @@ class InvestorCatalogRestApiTest extends CrowdSorceryTestBase {
                                                    .getContentAsString(), new TypeReference<>() {});
     }
 
-    private void registerInvestorWithName(String name) {
+    private void registerNonVipInvestorWithName(String name) {
         investorRepository.save(new Investor(uniqueId(), name, defaultProfile()));
     }
 

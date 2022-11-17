@@ -42,6 +42,11 @@ public class RegisteredInvestorsCatalogRestApi {
         return repository.findAllByNameLengthRange(start, end).map(this::toDto);
     }
 
+    @GetMapping(params = "vipsOnly")
+    public Stream<InvestorInCatalogDto> findByVipStatus(@RequestParam("vipsOnly") boolean onlyVips) {
+        return repository.findAllByInvestorProfileIsVip(onlyVips).map(this::toDto);
+    }
+
     private InvestorInCatalogDto toDto(Investor investor) {
         var profile = investor.investorProfile();
         return new InvestorInCatalogDto(investor.id(), investor.name(), profile.score(), profile.isVip(),
