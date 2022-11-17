@@ -14,6 +14,7 @@ import pl.wojtyna.trainings.spring.crowdsorcery.investor.repository.FakeInvestor
 import pl.wojtyna.trainings.spring.crowdsorcery.investor.repository.InvestorRepository;
 import pl.wojtyna.trainings.spring.crowdsorcery.investor.repository.LocalInvestorProfileRepository;
 import pl.wojtyna.trainings.spring.crowdsorcery.investor.repository.jpa.EntityManagerInvestorRepository;
+import pl.wojtyna.trainings.spring.crowdsorcery.investor.repository.jpa.InitialInvestorsPopulator;
 import pl.wojtyna.trainings.spring.crowdsorcery.investor.service.InvestorProfileService;
 import pl.wojtyna.trainings.spring.crowdsorcery.investor.service.InvestorService;
 import pl.wojtyna.trainings.spring.crowdsorcery.rest.RestModuleConfiguration;
@@ -23,6 +24,11 @@ import javax.persistence.EntityManager;
 @Configuration
 @Import(RestModuleConfiguration.class)
 public class InvestorModuleConfiguration {
+
+    @Bean
+    public InitialInvestorsPopulator initialInvestorsPopulator(InvestorRepository investorRepository) {
+        return new InitialInvestorsPopulator(investorRepository);
+    }
 
     @Bean
     public CliAdapter cliAdapter(CliCommandsMapper cliMapper, InvestorService investorService) {
