@@ -7,13 +7,10 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import pl.wojtyna.trainings.spring.crowdsorcery.borrower.BorrowerService;
-import pl.wojtyna.trainings.spring.crowdsorcery.investmentsimulation.InvestmentSimulationRunner;
 import pl.wojtyna.trainings.spring.crowdsorcery.investor.profile.InvestorProfile;
 import pl.wojtyna.trainings.spring.crowdsorcery.investor.service.Investor;
 import pl.wojtyna.trainings.spring.crowdsorcery.investor.service.InvestorService;
 import pl.wojtyna.trainings.spring.crowdsorcery.investor.service.RegisterInvestor;
-import pl.wojtyna.trainings.spring.crowdsorcery.notification.NotificationService;
 
 import java.util.List;
 
@@ -29,10 +26,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @DisplayName("Register and fetch investor REST API")
-@WebMvcTest
-@MockBean(NotificationService.class)
-@MockBean(InvestmentSimulationRunner.class)
-@MockBean(BorrowerService.class)
+@WebMvcTest(controllers = InvestorRestApi.class)
 class RegisterAndFetchInvestorRestApiIT {
 
     @Autowired
