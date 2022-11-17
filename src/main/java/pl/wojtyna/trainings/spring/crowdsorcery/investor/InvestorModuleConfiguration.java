@@ -14,8 +14,8 @@ import pl.wojtyna.trainings.spring.crowdsorcery.investor.repository.FakeInvestor
 import pl.wojtyna.trainings.spring.crowdsorcery.investor.repository.InvestorRepository;
 import pl.wojtyna.trainings.spring.crowdsorcery.investor.repository.LocalInvestorProfileRepository;
 import pl.wojtyna.trainings.spring.crowdsorcery.investor.repository.jpa.InitialInvestorsPopulator;
-import pl.wojtyna.trainings.spring.crowdsorcery.investor.repository.jpa.SpringDataBackedInvestorRepository;
-import pl.wojtyna.trainings.spring.crowdsorcery.investor.repository.jpa.SpringInvestorEntityRepository;
+import pl.wojtyna.trainings.spring.crowdsorcery.investor.repository.mongo.MongoSpringDataBackedInvestorRepository;
+import pl.wojtyna.trainings.spring.crowdsorcery.investor.repository.mongo.MongoSpringInvestorRepository;
 import pl.wojtyna.trainings.spring.crowdsorcery.investor.service.InvestorProfileService;
 import pl.wojtyna.trainings.spring.crowdsorcery.investor.service.InvestorService;
 import pl.wojtyna.trainings.spring.crowdsorcery.rest.RestModuleConfiguration;
@@ -45,8 +45,8 @@ public class InvestorModuleConfiguration {
     }
 
     @Bean
-    public InvestorRepository investorRepository(SpringInvestorEntityRepository springRepository) {
-        return new SpringDataBackedInvestorRepository(springRepository);
+    public InvestorRepository investorRepository(MongoSpringInvestorRepository springRepository) {
+        return new MongoSpringDataBackedInvestorRepository(springRepository);
     }
 
     @Bean
