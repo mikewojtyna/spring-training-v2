@@ -27,12 +27,7 @@ class InvestorRegistrationTest extends CrowdSorceryTestBase {
         var command = new RegisterInvestor("123", "George");
 
         // when
-        try {
-            investorService.register(command);
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
+        investorService.register(command);
 
         // then
         var foundInvestors = investorService.findAll();

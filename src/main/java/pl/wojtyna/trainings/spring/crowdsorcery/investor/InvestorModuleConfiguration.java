@@ -4,7 +4,6 @@ import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.jdbc.core.JdbcTemplate;
 import pl.wojtyna.trainings.spring.crowdsorcery.audit.AuditLog;
 import pl.wojtyna.trainings.spring.crowdsorcery.eventpublisher.EventPublisher;
@@ -22,7 +21,6 @@ import pl.wojtyna.trainings.spring.crowdsorcery.rest.RestModuleConfiguration;
 
 @Configuration
 @Import(RestModuleConfiguration.class)
-@PropertySource("classpath:investor/db.properties")
 public class InvestorModuleConfiguration {
 
     @Bean

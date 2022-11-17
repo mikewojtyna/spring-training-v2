@@ -15,12 +15,6 @@ class InitialInvestorsArePopulatedTest extends CrowdSorceryTestBase {
     @Autowired
     private InvestorService investorService;
 
-    @Override
-    protected boolean shouldCleanStateBeforeEachTest() {
-        // we are testing the initial state of the db, so we don't want to clean everything before running tests
-        return false;
-    }
-
     // @formatter:off
     @DisplayName(
         """

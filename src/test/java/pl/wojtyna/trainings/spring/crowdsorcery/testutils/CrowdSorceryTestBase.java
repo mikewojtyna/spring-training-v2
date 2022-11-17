@@ -11,14 +11,10 @@ public class CrowdSorceryTestBase {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    protected boolean shouldCleanStateBeforeEachTest() {
-        return true;
-    }
-
     @BeforeEach
     void cleanDb() {
-        if (shouldCleanStateBeforeEachTest()) {
-            jdbcTemplate.batchUpdate("DELETE FROM investor_profiles", "DELETE FROM investors");
-        }
+        jdbcTemplate.batchUpdate("DELETE FROM investor_profiles WHERE is_default = FALSE",
+                                 "DELETE FROM investors WHERE is_default = FALSE");
+        jdbcTemplate.batchUpdate("DELETE FROM borrowers WHERE is_default = FALSE");
     }
 }

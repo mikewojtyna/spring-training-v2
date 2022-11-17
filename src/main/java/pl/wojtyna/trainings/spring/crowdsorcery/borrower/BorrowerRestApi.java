@@ -10,11 +10,15 @@ import java.util.List;
 @RequestMapping("/borrower-module/api/v0/borrowers")
 public class BorrowerRestApi {
 
+    private final BorrowerService borrowerService;
+
+    public BorrowerRestApi(BorrowerService borrowerService) {
+        this.borrowerService = borrowerService;
+    }
+
     @GetMapping
     public List<Borrower> fetchAllBorrowers() {
-        return List.of(new Borrower("123", "George Borrower"),
-                       new Borrower("456", "Henry Borrower"),
-                       new Borrower("789", "Martin Borrower"));
+        return borrowerService.findAll();
     }
 
     @GetMapping("/confidential")

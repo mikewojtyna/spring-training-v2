@@ -18,13 +18,13 @@ public class JdbcInvestorRepository implements InvestorRepository {
     @Override
     @Transactional
     public void save(Investor investor) {
-        jdbcTemplate.update("INSERT INTO investors VALUES(?, ?)", investor.id(), investor.name());
+        jdbcTemplate.update("INSERT INTO investors VALUES(?, ?, ?)", investor.id(), investor.name(), false);
         var investorProfile = investor.investorProfile();
-        jdbcTemplate.update("INSERT INTO investor_profiles VALUES(?, ?, ?, ?, ?)",
+        jdbcTemplate.update("INSERT INTO investor_profiles VALUES(?, ?, ?, ?, ?, ?)",
                             investor.id(),
                             investorProfile.isVip(),
                             investorProfile.score(),
-                            investorProfile.referralLink(), investor.id());
+                            investorProfile.referralLink(), investor.id(), false);
     }
 
     @Override

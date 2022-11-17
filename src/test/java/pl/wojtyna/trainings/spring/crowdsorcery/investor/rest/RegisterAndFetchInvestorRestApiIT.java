@@ -7,6 +7,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import pl.wojtyna.trainings.spring.crowdsorcery.borrower.BorrowerService;
 import pl.wojtyna.trainings.spring.crowdsorcery.investmentsimulation.InvestmentSimulationRunner;
 import pl.wojtyna.trainings.spring.crowdsorcery.investor.profile.InvestorProfile;
 import pl.wojtyna.trainings.spring.crowdsorcery.investor.service.Investor;
@@ -31,6 +32,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest
 @MockBean(NotificationService.class)
 @MockBean(InvestmentSimulationRunner.class)
+@MockBean(BorrowerService.class)
 class RegisterAndFetchInvestorRestApiIT {
 
     @Autowired
