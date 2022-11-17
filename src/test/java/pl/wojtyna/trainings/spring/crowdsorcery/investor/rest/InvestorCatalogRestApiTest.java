@@ -51,7 +51,7 @@ class InvestorCatalogRestApiTest extends CrowdSorceryTestBase {
         registerInvestorWithName("Martin");
 
         // when
-        List<InvestorInCatalogDto> foundInvestors = queryByNameExactly("George");
+        var foundInvestors = queryByNameExactly("George");
 
         // then
         assertThat(foundInvestors).hasSize(1)
@@ -82,7 +82,7 @@ class InvestorCatalogRestApiTest extends CrowdSorceryTestBase {
         registerInvestorWithName("Martin");
 
         // when
-        List<InvestorInCatalogDto> foundInvestors = queryByNameContaining("or");
+        var foundInvestors = queryByNameContaining("or");
 
         // then
         assertThat(foundInvestors).hasSize(2)
@@ -90,6 +90,35 @@ class InvestorCatalogRestApiTest extends CrowdSorceryTestBase {
                                       "George"))
                                   .anySatisfy(investorInCatalogDto -> assertThat(investorInCatalogDto.name()).isEqualTo(
                                       "Porgie"));
+    }
+
+    // @formatter:off
+    @DisplayName(
+        """         
+         investors can be found by exact name length
+        """
+    )
+    // @formatter:on
+    @Test
+    void test3() throws Exception {
+        // given
+        registerInvestorWithName("George");
+        registerInvestorWithName("Tom");
+        registerInvestorWithName("Martin");
+
+        // when
+        var foundInvestors = queryByNameHavingLength(6);
+
+        // then
+        assertThat(foundInvestors).hasSize(2)
+                                  .anySatisfy(investorInCatalogDto -> assertThat(investorInCatalogDto.name()).isEqualTo(
+                                      "George"))
+                                  .anySatisfy(investorInCatalogDto -> assertThat(investorInCatalogDto.name()).isEqualTo(
+                                      "Martin"));
+    }
+
+    private List<InvestorInCatalogDto> queryByNameHavingLength(int length) throws Exception {
+        return queryByParam("exactNameLength", String.valueOf(length));
     }
 
     private List<InvestorInCatalogDto> queryByNameExactly(String name) throws Exception {

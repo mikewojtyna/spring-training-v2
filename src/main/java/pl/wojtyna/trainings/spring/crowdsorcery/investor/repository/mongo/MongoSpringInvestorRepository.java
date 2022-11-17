@@ -5,7 +5,7 @@ import pl.wojtyna.trainings.spring.crowdsorcery.investor.service.Investor;
 
 import java.util.stream.Stream;
 
-public interface MongoSpringInvestorRepository extends MongoRepository<Investor, String> {
+public interface MongoSpringInvestorRepository extends MongoRepository<Investor, String>, AdvancedNameFinderRepository {
 
     Stream<Investor> findAllByName(String name);
 

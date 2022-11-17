@@ -29,6 +29,11 @@ public class RegisteredInvestorsCatalogRestApi {
         return repository.findAllByNameContaining(subString).map(this::toDto);
     }
 
+    @GetMapping(params = "exactNameLength")
+    public Stream<InvestorInCatalogDto> findByExactNameLength(@RequestParam("exactNameLength") int nameLength) {
+        return repository.findAllByNameLength(nameLength).map(this::toDto);
+    }
+
     private InvestorInCatalogDto toDto(Investor investor) {
         var profile = investor.investorProfile();
         return new InvestorInCatalogDto(investor.id(), investor.name(), profile.score(), profile.isVip(),
