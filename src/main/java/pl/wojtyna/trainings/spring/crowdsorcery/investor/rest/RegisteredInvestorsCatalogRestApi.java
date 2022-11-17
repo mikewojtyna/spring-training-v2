@@ -52,6 +52,11 @@ public class RegisteredInvestorsCatalogRestApi {
         return repository.findAllByInvestorProfileScore(score).map(this::toDto);
     }
 
+    @GetMapping(params = "scoreGtOrEq")
+    public Stream<InvestorInCatalogDto> findByScoreGreaterThanOrEqualTo(@RequestParam("scoreGtOrEq") int score) {
+        return repository.findByInvestorProfileScoreGreaterThanEqual(score).map(this::toDto);
+    }
+
     private InvestorInCatalogDto toDto(Investor investor) {
         var profile = investor.investorProfile();
         return new InvestorInCatalogDto(investor.id(), investor.name(), profile.score(), profile.isVip(),

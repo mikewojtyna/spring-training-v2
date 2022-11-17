@@ -221,6 +221,35 @@ class InvestorCatalogRestApiTest extends CrowdSorceryTestBase {
                                       "Martin"));
     }
 
+    // @formatter:off
+    @DisplayName(
+        """         
+         investors can be found by score value greater than or equal to
+        """
+    )
+    // @formatter:on
+    @Test
+    void test8() throws Exception {
+        // given
+        registerNonVipInvestorWithNameAndScore("George", 15);
+        registerNonVipInvestorWithNameAndScore("Martin", 20);
+        registerNonVipInvestorWithNameAndScore("Henry", 30);
+
+        // when
+        var foundInvestors = queryByScoreGreaterThanOrEqualTo(20);
+
+        // then
+        assertThat(foundInvestors).hasSize(2)
+                                  .anySatisfy(investorInCatalogDto -> assertThat(investorInCatalogDto.name()).isEqualTo(
+                                      "Martin"))
+                                  .anySatisfy(investorInCatalogDto -> assertThat(investorInCatalogDto.name()).isEqualTo(
+                                      "Henry"));
+    }
+
+    private List<InvestorInCatalogDto> queryByScoreGreaterThanOrEqualTo(int score) throws Exception {
+        return queryByParam("scoreGtOrEq", String.valueOf(score));
+    }
+
     private List<InvestorInCatalogDto> queryByScoreExactly(int score) throws Exception {
         return queryByParam("exactScore", String.valueOf(score));
     }

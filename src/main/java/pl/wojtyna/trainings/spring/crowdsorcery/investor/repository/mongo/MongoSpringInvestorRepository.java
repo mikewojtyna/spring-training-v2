@@ -14,4 +14,6 @@ public interface MongoSpringInvestorRepository extends MongoRepository<Investor,
     Stream<Investor> findAllByInvestorProfileIsVip(boolean isVip);
 
     Stream<Investor> findAllByInvestorProfileScore(int score);
+
+    Stream<Investor> findByInvestorProfileScoreGreaterThanEqual(int score);
 }
