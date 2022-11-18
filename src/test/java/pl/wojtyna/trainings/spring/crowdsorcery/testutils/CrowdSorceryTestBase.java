@@ -10,6 +10,7 @@ import pl.wojtyna.trainings.spring.crowdsorcery.borrower.Borrower;
 import pl.wojtyna.trainings.spring.crowdsorcery.borrower.InitialBorrowersPopulator;
 import pl.wojtyna.trainings.spring.crowdsorcery.investor.repository.InitialInvestorsPopulator;
 import pl.wojtyna.trainings.spring.crowdsorcery.investor.service.Investor;
+import pl.wojtyna.trainings.spring.crowdsorcery.portfolio.Portfolio;
 
 @ActiveProfiles("test")
 public class CrowdSorceryTestBase {
@@ -29,6 +30,7 @@ public class CrowdSorceryTestBase {
         jdbcTemplate.batchUpdate("DELETE FROM borrowers WHERE is_default = FALSE");
         mongoTemplate.dropCollection(Investor.class);
         mongoTemplate.dropCollection(Borrower.class);
+        mongoTemplate.dropCollection(Portfolio.class);
     }
 
     @BeforeEach
