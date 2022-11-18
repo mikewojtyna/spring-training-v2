@@ -30,7 +30,7 @@ class WhenInvestorIsRegisteredThenNotificationIsSentTest extends CrowdSorceryTes
     @Test
     void test() {
         // when
-        investorService.register(new RegisterInvestor("456", "George"));
+        investorService.register(new RegisterInvestor("456", "George", 0));
 
         // then
         verify(notificationServiceMock).notifyAbout(any(InvestorRegistered.class));

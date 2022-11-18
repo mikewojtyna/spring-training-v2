@@ -11,7 +11,7 @@ public class SimpleNameCliCommandsMapper implements CliCommandsMapper {
     public Optional<RegisterInvestor> map(String[] args) {
         var id = extractIdOrFail(args);
         var name = extractNameOrFail(args);
-        return Optional.of(new RegisterInvestor(id, name));
+        return Optional.of(new RegisterInvestor(id, name, 0));
     }
 
     private String extractNameOrFail(String[] args) {

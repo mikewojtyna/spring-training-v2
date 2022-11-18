@@ -38,7 +38,10 @@ public class SpringDataBackedInvestorRepository implements InvestorRepository {
             var investorProfile = new InvestorProfile(investorProfileEntity.getScore(),
                                                       investorProfileEntity.isVip(),
                                                       investorProfileEntity.getReferralLink());
-            return new Investor(investorEntity.getId(), investorEntity.getName(), investorProfile);
+            return new Investor(investorEntity.getId(),
+                                investorEntity.getName(),
+                                investorProfile,
+                                investorEntity.getVersion());
         }).toList();
     }
 }

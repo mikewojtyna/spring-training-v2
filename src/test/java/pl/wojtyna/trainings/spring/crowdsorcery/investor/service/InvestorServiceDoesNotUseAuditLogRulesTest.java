@@ -27,7 +27,7 @@ class InvestorServiceDoesNotUseAuditLogRulesTest extends CrowdSorceryTestBase {
     // @formatter:on
     @Test
     void test0() {
-        var command = new RegisterInvestor("123", "George");
+        var command = new RegisterInvestor("123", "George", 0);
         investorService.register(command);
         assertThatThrownBy(() -> applicationContext.getBean(AuditLog.class)).isInstanceOf(NoSuchBeanDefinitionException.class);
     }

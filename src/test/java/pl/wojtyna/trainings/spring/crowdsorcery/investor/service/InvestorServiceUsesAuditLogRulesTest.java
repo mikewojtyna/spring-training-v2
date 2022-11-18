@@ -27,7 +27,7 @@ class InvestorServiceUsesAuditLogRulesTest extends CrowdSorceryTestBase {
     // @formatter:on
     @Test
     void test0() {
-        var command = new RegisterInvestor("123", "George");
+        var command = new RegisterInvestor("123", "George", 0);
         investorService.register(command);
         assertThat(auditLog.entries()).hasSize(1).anySatisfy(commandEventAuditLogEntry -> {
             assertThat(commandEventAuditLogEntry.command()).isEqualTo(command);

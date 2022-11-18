@@ -24,7 +24,7 @@ class InvestorRegistrationTest extends CrowdSorceryTestBase {
     @Test
     void test() {
         // given
-        var command = new RegisterInvestor("123", "George");
+        var command = new RegisterInvestor("123", "George", 0);
 
         // when
         investorService.register(command);

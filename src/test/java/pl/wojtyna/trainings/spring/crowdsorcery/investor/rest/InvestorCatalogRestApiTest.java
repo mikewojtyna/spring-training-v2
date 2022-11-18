@@ -278,7 +278,7 @@ class InvestorCatalogRestApiTest extends CrowdSorceryTestBase {
     private void registerNonVipInvestorWithNameAndRefLinkId(String name, String refLinkId) {
         investorRepository.save(new Investor(uniqueId(),
                                              name,
-                                             new InvestorProfile(10, true, "wojtyna.pl?refLink=" + refLinkId)));
+                                             new InvestorProfile(10, true, "wojtyna.pl?refLink=" + refLinkId), 0));
     }
 
     private List<InvestorInCatalogDto> queryByScoreGreaterThanOrEqualTo(int score) throws Exception {
@@ -292,7 +292,7 @@ class InvestorCatalogRestApiTest extends CrowdSorceryTestBase {
     private void registerNonVipInvestorWithNameAndScore(String name, int score) {
         investorRepository.save(new Investor(uniqueId(),
                                              name,
-                                             new InvestorProfile(score, true, "wojtyna.pl?refLink=456")));
+                                             new InvestorProfile(score, true, "wojtyna.pl?refLink=456"), 0));
     }
 
     private List<InvestorInCatalogDto> queryNoVips() throws Exception {
@@ -306,7 +306,7 @@ class InvestorCatalogRestApiTest extends CrowdSorceryTestBase {
     private void registerVipInvestorWithName(String name) {
         investorRepository.save(new Investor(uniqueId(),
                                              name,
-                                             new InvestorProfile(20, true, "wojtyna.pl?refLink=456")));
+                                             new InvestorProfile(20, true, "wojtyna.pl?refLink=456"), 0));
     }
 
     private List<InvestorInCatalogDto> queryByNameHavingLengthBetween(int start, int end) throws Exception {
@@ -337,7 +337,7 @@ class InvestorCatalogRestApiTest extends CrowdSorceryTestBase {
     }
 
     private void registerNonVipInvestorWithName(String name) {
-        investorRepository.save(new Investor(uniqueId(), name, defaultProfile()));
+        investorRepository.save(new Investor(uniqueId(), name, defaultProfile(), 0));
     }
 
     private InvestorProfile defaultProfile() {

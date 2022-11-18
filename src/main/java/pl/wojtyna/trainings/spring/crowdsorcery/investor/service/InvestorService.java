@@ -33,7 +33,7 @@ public class InvestorService {
     public void register(RegisterInvestor command) {
         var investor = new Investor(command.id(),
                                     command.name(),
-                                    investorProfileService.fetchById(command.id()).orElseThrow());
+                                    investorProfileService.fetchById(command.id()).orElseThrow(), command.version());
         investorRepository.save(investor);
         // we should use outbox pattern here, but let's leave it like this for the sake of the simplicity
         Event event = new InvestorRegistered(investor);
@@ -43,6 +43,16 @@ public class InvestorService {
 
     public List<Investor> findAll() {
         return investorRepository.findAll();
+    }
+
+    public void update(String id, UpdateInvestor updateInvestor) {
+        investorRepository.findById(id).ifPresent(investor -> {
+            var updatedInvestor = new Investor(investor.id(),
+                                               updateInvestor.name(),
+                                               investor.investorProfile(),
+                                               updateInvestor.version());
+            investorRepository.save(updatedInvestor);
+        });
     }
 
     private void tryToRecordInAuditLog(RegisterInvestor command, Event event) {

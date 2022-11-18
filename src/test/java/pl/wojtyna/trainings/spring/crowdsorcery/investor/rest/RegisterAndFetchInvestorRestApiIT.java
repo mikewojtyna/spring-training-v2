@@ -58,7 +58,8 @@ class RegisterAndFetchInvestorRestApiIT {
                           """;
         when(investorService.findAll()).thenReturn(List.of(new Investor("10",
                                                                         "George",
-                                                                        new InvestorProfile(100, false, "reflink"))));
+                                                                        new InvestorProfile(100, false, "reflink"),
+                                                                        0)));
 
         // when
         var registeredInvestorLocation = mockMvc.perform(post("/investorModule/api/v0/investors").contentType(MediaType.APPLICATION_JSON)

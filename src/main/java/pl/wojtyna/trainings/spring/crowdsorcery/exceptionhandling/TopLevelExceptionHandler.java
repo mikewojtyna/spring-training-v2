@@ -1,5 +1,6 @@
 package pl.wojtyna.trainings.spring.crowdsorcery.exceptionhandling;
 
+import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -11,6 +12,13 @@ import java.util.stream.Collectors;
 
 @ControllerAdvice
 public class TopLevelExceptionHandler {
+
+    @ExceptionHandler(OptimisticLockingFailureException.class)
+    public ResponseEntity<GenericErrorResponse> handleOptimisticLockingExceptions(OptimisticLockingFailureException exception) {
+        return ResponseEntity.status(HttpStatus.CONFLICT)
+                             .body(new GenericErrorResponse(HttpStatus.CONFLICT.getReasonPhrase(),
+                                                            exception.getMessage()));
+    }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ValidationErrorResponse> handleValidationException(MethodArgumentNotValidException exception) {

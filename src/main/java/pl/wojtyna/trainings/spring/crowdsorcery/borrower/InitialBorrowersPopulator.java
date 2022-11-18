@@ -1,9 +1,7 @@
-package pl.wojtyna.trainings.spring.crowdsorcery.borrower.jpa;
+package pl.wojtyna.trainings.spring.crowdsorcery.borrower;
 
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
-import pl.wojtyna.trainings.spring.crowdsorcery.borrower.Borrower;
-import pl.wojtyna.trainings.spring.crowdsorcery.borrower.BorrowerRepository;
 
 public class InitialBorrowersPopulator implements ApplicationRunner {
 

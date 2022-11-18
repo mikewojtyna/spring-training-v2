@@ -40,7 +40,7 @@ public class JdbcInvestorRepository implements InvestorRepository {
             var isVip = rs.getBoolean("isVip");
             var score = rs.getInt("score");
             var refLink = rs.getString("ref_link");
-            return new Investor(id, name, new InvestorProfile(score, isVip, refLink));
+            return new Investor(id, name, new InvestorProfile(score, isVip, refLink), 0);
         });
     }
 }

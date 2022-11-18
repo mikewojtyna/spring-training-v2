@@ -16,4 +16,6 @@ public class InvestorEntity {
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "investor_profile_id", referencedColumnName = "id")
     private InvestorProfileEntity investorProfile;
+    @Version
+    private int version;
 }

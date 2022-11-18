@@ -2,7 +2,6 @@ package pl.wojtyna.trainings.spring.crowdsorcery.borrower;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import pl.wojtyna.trainings.spring.crowdsorcery.borrower.jpa.InitialBorrowersPopulator;
 import pl.wojtyna.trainings.spring.crowdsorcery.borrower.mongo.MongoSpringBorrowerRepository;
 import pl.wojtyna.trainings.spring.crowdsorcery.borrower.mongo.MongoSpringDataBackedBorrowerRepository;
 

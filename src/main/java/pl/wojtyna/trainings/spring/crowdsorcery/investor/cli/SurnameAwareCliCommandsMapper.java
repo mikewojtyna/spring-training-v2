@@ -11,7 +11,7 @@ public class SurnameAwareCliCommandsMapper implements CliCommandsMapper {
     public Optional<RegisterInvestor> map(String[] args) {
         var id = extractIdOrFail(args);
         var name = extractFirstNameOrFail(args) + tryToExtractSurname(args).map(surname -> " " + surname).orElse("");
-        return Optional.of(new RegisterInvestor(id, name));
+        return Optional.of(new RegisterInvestor(id, name, 0));
     }
 
     private Optional<String> tryToExtractSurname(String[] args) {

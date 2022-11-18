@@ -37,7 +37,7 @@ class InvestorSecretFilterIsAppliedOnlyToInvestorModuleTest extends CrowdSorcery
     void test() throws Exception {
         var requestBody = """
                           {
-                             "id": 10,
+                             "id": "123",
                              "name": "George"
                           }
                           """;
@@ -56,7 +56,7 @@ class InvestorSecretFilterIsAppliedOnlyToInvestorModuleTest extends CrowdSorcery
         // this should be logged by logging filter
         mockMvc.perform(get(registeredInvestorLocation).header("InvestorSecret", "aspecialsecret"))
                .andExpect(status().isOk())
-               .andExpect(jsonPath("$.id", is("10")))
+               .andExpect(jsonPath("$.id", is("123")))
                .andExpect(jsonPath("$.name", is("George")));
     }
 
@@ -71,7 +71,7 @@ class InvestorSecretFilterIsAppliedOnlyToInvestorModuleTest extends CrowdSorcery
     void test3() throws Exception {
         var requestBody = """
                           {
-                             "id": 10,
+                             "id": "123",
                              "name": "George"
                           }
                           """;
@@ -98,7 +98,7 @@ class InvestorSecretFilterIsAppliedOnlyToInvestorModuleTest extends CrowdSorcery
     void test4() throws Exception {
         var requestBody = """
                           {
-                             "id": 10,
+                             "id": "123",
                              "name": "George"
                           }
                           """;
