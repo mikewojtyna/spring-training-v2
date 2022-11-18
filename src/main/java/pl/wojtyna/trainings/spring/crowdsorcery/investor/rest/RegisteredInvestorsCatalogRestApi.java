@@ -1,5 +1,7 @@
 package pl.wojtyna.trainings.spring.crowdsorcery.investor.rest;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -17,6 +19,16 @@ public class RegisteredInvestorsCatalogRestApi {
 
     public RegisteredInvestorsCatalogRestApi(MongoSpringInvestorRepository repository) {
         this.repository = repository;
+    }
+
+    @GetMapping(params = "page")
+    public Page<InvestorInCatalogDto> findInvestorsPage(Pageable pageable) {
+        return repository.findAll(pageable).map(this::toDto);
+    }
+
+    @GetMapping(params = {"exactName", "page"})
+    public Page<InvestorInCatalogDto> findPageByName(@RequestParam("exactName") String name, Pageable pageable) {
+        return repository.findByName(name, pageable).map(this::toDto);
     }
 
     @GetMapping(params = "exactName")

@@ -16,9 +16,14 @@ import pl.wojtyna.trainings.spring.crowdsorcery.testutils.CrowdSorceryTestBase;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @DisplayName("Investor catalog REST API queries")
@@ -271,6 +276,63 @@ class InvestorCatalogRestApiTest extends CrowdSorceryTestBase {
                                       "Henry"));
     }
 
+    // @formatter:off
+    @DisplayName(
+        """         
+         can load page of investors
+        """
+    )
+    // @formatter:on
+    @Test
+    void test10() throws Exception {
+        // given
+        Stream.generate(this::nonVipInvestorWithUniqueName).limit(1000).forEach(investorRepository::save);
+
+        // when
+        mockMvc.perform(get("/investorModule/api/v0/investors").param("page", "2")
+                                                               .param("size", "10")
+                                                               .header("InvestorSecret", "aspecialsecret"))
+
+               // then
+               .andExpect(status().isOk())
+               .andDo(print())
+               .andExpect(jsonPath("$.content", hasSize(10)))
+               .andExpect(jsonPath("$.number", is(2)))
+               .andExpect(jsonPath("$.size", is(10)))
+               .andExpect(jsonPath("$.totalPages", is(100)))
+               .andExpect(jsonPath("$.totalElements", is(1000)));
+    }
+
+    // @formatter:off
+    @DisplayName(
+        """         
+         can load page of investors selected by name
+        """
+    )
+    // @formatter:on
+    @Test
+    void test11() throws Exception {
+        // given
+        Stream.generate(this::nonVipInvestorWithUniqueName).limit(1000).forEach(investorRepository::save);
+        Stream.generate(() -> nonVipInvestorWithName("George")).limit(100).forEach(investorRepository::save);
+
+        // when
+        mockMvc.perform(get("/investorModule/api/v0/investors")
+                            .param("exactName", "George")
+                            .param("page", "3")
+                            .param("size", "5")
+                            .header("InvestorSecret", "aspecialsecret"))
+
+               // then
+               .andExpect(status().isOk())
+               .andDo(print())
+               .andExpect(jsonPath("$.content", hasSize(5)))
+               .andExpect(jsonPath("$.number", is(3)))
+               .andExpect(jsonPath("$.size", is(5)))
+               .andExpect(jsonPath("$.totalPages", is(20)))
+               .andExpect(jsonPath("$.totalElements", is(100)));
+    }
+
     private List<InvestorInCatalogDto> queryByRefLinkId(String refLinkId) throws Exception {
         return queryByParam("refLink", refLinkId);
     }
@@ -278,7 +340,20 @@ class InvestorCatalogRestApiTest extends CrowdSorceryTestBase {
     private void registerNonVipInvestorWithNameAndRefLinkId(String name, String refLinkId) {
         investorRepository.save(new Investor(uniqueId(),
                                              name,
-                                             new InvestorProfile(10, true, "wojtyna.pl?refLink=" + refLinkId), 0));
+                                             new InvestorProfile(10, true, "wojtyna.pl?refLink=" + refLinkId),
+                                             0));
+    }
+
+    private Investor nonVipInvestorWithUniqueName() {
+        return new Investor(uniqueId(), uniqueName(), new InvestorProfile(20, false, "wojtyna.pl?refLink=456"), 0);
+    }
+
+    private Investor nonVipInvestorWithName(String name) {
+        return new Investor(uniqueId(), name, new InvestorProfile(20, false, "wojtyna.pl?refLink=456"), 0);
+    }
+
+    private String uniqueName() {
+        return "Name %s".formatted(UUID.randomUUID());
     }
 
     private List<InvestorInCatalogDto> queryByScoreGreaterThanOrEqualTo(int score) throws Exception {
@@ -292,7 +367,8 @@ class InvestorCatalogRestApiTest extends CrowdSorceryTestBase {
     private void registerNonVipInvestorWithNameAndScore(String name, int score) {
         investorRepository.save(new Investor(uniqueId(),
                                              name,
-                                             new InvestorProfile(score, true, "wojtyna.pl?refLink=456"), 0));
+                                             new InvestorProfile(score, true, "wojtyna.pl?refLink=456"),
+                                             0));
     }
 
     private List<InvestorInCatalogDto> queryNoVips() throws Exception {
@@ -306,7 +382,8 @@ class InvestorCatalogRestApiTest extends CrowdSorceryTestBase {
     private void registerVipInvestorWithName(String name) {
         investorRepository.save(new Investor(uniqueId(),
                                              name,
-                                             new InvestorProfile(20, true, "wojtyna.pl?refLink=456"), 0));
+                                             new InvestorProfile(20, true, "wojtyna.pl?refLink=456"),
+                                             0));
     }
 
     private List<InvestorInCatalogDto> queryByNameHavingLengthBetween(int start, int end) throws Exception {
