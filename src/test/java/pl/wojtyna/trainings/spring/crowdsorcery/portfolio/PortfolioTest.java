@@ -195,6 +195,42 @@ class PortfolioTest extends CrowdSorceryTestBase {
         });
     }
 
+    // @formatter:off
+    @DisplayName(
+        """
+         given investor is registered
+         and added two investments,
+         then investor can delete any of them
+        """
+    )
+    // @formatter:on
+    @Test
+    void test8() {
+        // given
+        var investorId = registerInvestor();
+        var firstInvestment = new Investment(UUID.randomUUID().toString(),
+                                             "My First Investment",
+                                             "This is my very first investment. I'm extremely proud of it.");
+        var secondInvestment = new Investment(UUID.randomUUID().toString(),
+                                              "My Second Investment",
+                                              "This is my second investment.");
+        portfolioService.addInvestment(investorId, firstInvestment);
+        portfolioService.addInvestment(investorId, secondInvestment);
+
+        // when
+        portfolioService.deleteInvestment(investorId, firstInvestment.id());
+
+        // then
+        assertThat(portfolioService.getPublicPortfolio(investorId)).hasValueSatisfying(portfolio -> {
+            assertThat(portfolio.investorId()).isEqualTo(investorId);
+            assertThat(portfolio.investments()).hasSize(1).anySatisfy(investment -> {
+                assertThat(investment.id()).isEqualTo(secondInvestment.id());
+                assertThat(investment.title()).isEqualTo(secondInvestment.title());
+                assertThat(investment.description()).isEqualTo(secondInvestment.description());
+            });
+        });
+    }
+
     private String registerInvestor() {
         var investorId = UUID.randomUUID().toString();
         investorService.register(new RegisterInvestor(investorId, "George", 0));

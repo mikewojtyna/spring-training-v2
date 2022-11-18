@@ -17,6 +17,10 @@ public record Portfolio(@Id String investorId, List<Investment> investments, boo
         return new Portfolio(investor.id(), List.of(), true, 0);
     }
 
+    public static Portfolio emptyPublicPortfolioOf(String investorId) {
+        return new Portfolio(investorId, List.of(), true, 0);
+    }
+
     public Portfolio publish() {
         return new Portfolio(investorId, investments, true, version);
     }

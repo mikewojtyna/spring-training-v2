@@ -14,6 +14,10 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity.authorizeRequests()
+                           .antMatchers("/portfolio-module/api/v0/portfolios/public/**")
+                           .permitAll()
+                           .and()
+                           .authorizeRequests()
                            .antMatchers("/portfolio-module/**")
                            .authenticated()
                            .and()

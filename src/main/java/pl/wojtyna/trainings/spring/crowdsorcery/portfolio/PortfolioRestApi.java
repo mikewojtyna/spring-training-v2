@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/portfolio-module/api/v0/portfolios")
@@ -16,9 +17,14 @@ public class PortfolioRestApi {
         this.portfolioService = portfolioService;
     }
 
-    @GetMapping
+    @GetMapping("/public")
     public List<Portfolio> getAllPublicPortfolios() {
         return portfolioService.getAllPublicPortfolios();
+    }
+
+    @GetMapping("/public/{id}")
+    public Optional<Portfolio> getPublicPortfolio(@PathVariable("id") String id) {
+        return portfolioService.getPublicPortfolio(id);
     }
 
     @PutMapping(value = "/myPortfolio/public", consumes = "text/plain")
@@ -32,9 +38,21 @@ public class PortfolioRestApi {
         }
     }
 
-    @PostMapping
+    @PostMapping("/myPortfolio/investments")
     @ResponseStatus(HttpStatus.CREATED)
     public void addInvestment(@RequestBody Investment investment, Principal principal) {
         portfolioService.addInvestment(principal.getName(), investment);
+    }
+
+    @PutMapping("/myPortfolio/investments/{id}")
+    public void editInvestment(@PathVariable("id") String investmentId,
+                               @RequestBody Investment investment,
+                               Principal principal) {
+        portfolioService.editInvestment(principal.getName(), investment);
+    }
+
+    @DeleteMapping("/myPortfolio/investments/{id}")
+    public void deleteInvestment(@PathVariable("id") String investmentId, Principal principal) {
+        portfolioService.deleteInvestment(principal.getName(), investmentId);
     }
 }
