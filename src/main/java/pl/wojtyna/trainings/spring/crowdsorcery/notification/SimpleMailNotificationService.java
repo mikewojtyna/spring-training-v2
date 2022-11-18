@@ -4,6 +4,7 @@ import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
 import pl.wojtyna.trainings.spring.crowdsorcery.eventpublisher.Event;
 import pl.wojtyna.trainings.spring.crowdsorcery.investor.service.InvestorRegistered;
+import pl.wojtyna.trainings.spring.crowdsorcery.mail.EmailAddressResolver;
 
 public class SimpleMailNotificationService implements NotificationService {
 

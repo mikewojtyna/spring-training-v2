@@ -23,13 +23,17 @@ public class CrowdSorceryTestBase {
     @Autowired
     private InitialInvestorsPopulator initialInvestorsPopulator;
 
-    @BeforeEach
-    void cleanDb() throws Exception {
+    protected void cleanDb() {
         jdbcTemplate.batchUpdate("DELETE FROM investor_profiles WHERE is_default = FALSE",
                                  "DELETE FROM investors WHERE is_default = FALSE");
         jdbcTemplate.batchUpdate("DELETE FROM borrowers WHERE is_default = FALSE");
         mongoTemplate.dropCollection(Investor.class);
         mongoTemplate.dropCollection(Borrower.class);
+    }
+
+    @BeforeEach
+    private void cleanDbAndRepopulateWithInitialData() throws Exception {
+        cleanDb();
         // recreate initial db content
         initialInvestorsPopulator.run(new DefaultApplicationArguments());
         initialBorrowersPopulator.run(new DefaultApplicationArguments());

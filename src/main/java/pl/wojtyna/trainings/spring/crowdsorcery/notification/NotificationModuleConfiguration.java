@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.mail.MailSender;
 import pl.wojtyna.trainings.spring.crowdsorcery.eventpublisher.SubscriberRegistry;
+import pl.wojtyna.trainings.spring.crowdsorcery.mail.EmailAddressResolver;
 
 @Configuration
 public class NotificationModuleConfiguration {
@@ -13,11 +14,6 @@ public class NotificationModuleConfiguration {
     public EventSubscriberInitializer eventSubscriberInitializer(SubscriberRegistry subscriberRegistry,
                                                                  NotificationService notificationService) {
         return new EventSubscriberInitializer(subscriberRegistry, notificationService);
-    }
-
-    @Bean
-    public EmailAddressResolver stubbedEmailAddressResolver() {
-        return investor -> "mike@wojtyna.pl";
     }
 
     @Bean
