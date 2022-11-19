@@ -3,7 +3,6 @@ package pl.wojtyna.trainings.spring.crowdsorcery.investor;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
 import pl.wojtyna.trainings.spring.crowdsorcery.audit.AuditLog;
 import pl.wojtyna.trainings.spring.crowdsorcery.eventpublisher.EventPublisher;
 import pl.wojtyna.trainings.spring.crowdsorcery.investor.cli.CliAdapter;
@@ -18,10 +17,8 @@ import pl.wojtyna.trainings.spring.crowdsorcery.investor.repository.LocalInvesto
 import pl.wojtyna.trainings.spring.crowdsorcery.investor.repository.mongo.MongoSpringDataBackedInvestorRepository;
 import pl.wojtyna.trainings.spring.crowdsorcery.investor.repository.mongo.MongoSpringInvestorRepository;
 import pl.wojtyna.trainings.spring.crowdsorcery.investor.service.InvestorService;
-import pl.wojtyna.trainings.spring.crowdsorcery.rest.RestModuleConfiguration;
 
 @Configuration
-@Import(RestModuleConfiguration.class)
 public class InvestorModuleConfiguration {
 
     @Bean

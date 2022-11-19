@@ -29,7 +29,7 @@
 		<dependency>
 			<groupId>pl.wojtyna.trainings.spring.crowdsorcery
 			</groupId>
-			<artifactId>crowd-sorcery-rest</artifactId>
+			<artifactId>crowd-sorcery-rest-starter</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>

@@ -1,17 +1,17 @@
-package pl.wojtyna.trainings.spring.crowdsorcery.rest;
+package rest.autoconfigure;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 
-@SpringBootTest(classes = RestModuleConfiguration.class)
+@SpringBootTest(classes = RestAutoConfiguration.class)
 public class RestResourcesTest {
 
     @Autowired
-    private RestResourcesConfiguration restResourcesConfiguration;
+    private RestResourcesConfigurationProperties restResourcesConfiguration;
 
     @DisplayName(
         """

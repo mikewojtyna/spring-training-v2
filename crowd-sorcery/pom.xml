@@ -13,6 +13,8 @@
 		<module>external-investor-profile-rest-server</module>
 		<module>mail-autoconfigure</module>
 		<module>mail-starter</module>
+		<module>rest-autoconfigure</module>
+		<module>rest-starter</module>
 	</modules>
 	<parent>
 		<artifactId>spring-training-v2</artifactId>
