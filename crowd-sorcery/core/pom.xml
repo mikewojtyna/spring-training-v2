@@ -20,9 +20,10 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>pl.wojtyna.trainings.spring.crowdsorcery
+			<groupId>pl.wojtyna.trainings.spring.crowdsorcery.mail
 			</groupId>
-			<artifactId>crowd-sorcery-mail</artifactId>
+			<artifactId>crowd-sorcery-mail-spring-boot-starter
+			</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
