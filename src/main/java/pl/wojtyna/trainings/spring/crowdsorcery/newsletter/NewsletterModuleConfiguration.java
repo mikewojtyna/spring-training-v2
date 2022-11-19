@@ -1,4 +1,4 @@
-package pl.wojtyna.trainings.spring.crowdsorcery.newletter;
+package pl.wojtyna.trainings.spring.crowdsorcery.newsletter;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

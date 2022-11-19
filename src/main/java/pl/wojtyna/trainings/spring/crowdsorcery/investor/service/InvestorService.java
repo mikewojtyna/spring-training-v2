@@ -3,6 +3,7 @@ package pl.wojtyna.trainings.spring.crowdsorcery.investor.service;
 import pl.wojtyna.trainings.spring.crowdsorcery.audit.AuditLog;
 import pl.wojtyna.trainings.spring.crowdsorcery.eventpublisher.Event;
 import pl.wojtyna.trainings.spring.crowdsorcery.eventpublisher.EventPublisher;
+import pl.wojtyna.trainings.spring.crowdsorcery.investor.profile.InvestorProfileService;
 import pl.wojtyna.trainings.spring.crowdsorcery.investor.repository.InvestorRepository;
 
 import java.util.List;

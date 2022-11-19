@@ -1,7 +1,6 @@
 package pl.wojtyna.trainings.spring.crowdsorcery.investor.profile;
 
 import lombok.Data;
-import pl.wojtyna.trainings.spring.crowdsorcery.investor.service.InvestorProfileService;
 import pl.wojtyna.trainings.spring.crowdsorcery.rest.RestClient;
 
 import java.util.Optional;

@@ -4,7 +4,7 @@ import org.aspectj.lang.annotation.Pointcut;
 
 public interface OutputPointcuts {
 
-    @Pointcut("execution(* pl.wojtyna.trainings.spring.crowdsorcery.investor.service.InvestorProfileService.*(..))")
+    @Pointcut("execution(* pl.wojtyna.trainings.spring.crowdsorcery.investor.profile.InvestorProfileService.*(..))")
     static void investorProfileService() {}
 
     @Pointcut("execution(* pl.wojtyna.trainings.spring.crowdsorcery.eventpublisher.EventPublisher.*(..))")

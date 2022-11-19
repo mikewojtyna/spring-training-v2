@@ -14,7 +14,6 @@ import pl.wojtyna.trainings.spring.crowdsorcery.borrower.Borrower;
 import pl.wojtyna.trainings.spring.crowdsorcery.borrower.BorrowerService;
 import pl.wojtyna.trainings.spring.crowdsorcery.investor.service.InvestorService;
 import pl.wojtyna.trainings.spring.crowdsorcery.investor.service.RegisterInvestor;
-import pl.wojtyna.trainings.spring.crowdsorcery.newletter.NewsletterService;
 import pl.wojtyna.trainings.spring.crowdsorcery.testutils.CrowdSorceryTestBase;
 
 import java.util.ArrayList;

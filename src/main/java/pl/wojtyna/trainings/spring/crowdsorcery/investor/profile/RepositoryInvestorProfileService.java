@@ -1,7 +1,6 @@
 package pl.wojtyna.trainings.spring.crowdsorcery.investor.profile;
 
 import pl.wojtyna.trainings.spring.crowdsorcery.investor.repository.LocalInvestorProfileRepository;
-import pl.wojtyna.trainings.spring.crowdsorcery.investor.service.InvestorProfileService;
 
 import java.util.Optional;
 

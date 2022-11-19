@@ -9,6 +9,7 @@ import pl.wojtyna.trainings.spring.crowdsorcery.eventpublisher.EventPublisher;
 import pl.wojtyna.trainings.spring.crowdsorcery.investor.cli.CliAdapter;
 import pl.wojtyna.trainings.spring.crowdsorcery.investor.cli.CliCommandsMapper;
 import pl.wojtyna.trainings.spring.crowdsorcery.investor.cli.SurnameAwareCliCommandsMapper;
+import pl.wojtyna.trainings.spring.crowdsorcery.investor.profile.InvestorProfileService;
 import pl.wojtyna.trainings.spring.crowdsorcery.investor.profile.RepositoryInvestorProfileService;
 import pl.wojtyna.trainings.spring.crowdsorcery.investor.repository.FakeInvestorProfileRepository;
 import pl.wojtyna.trainings.spring.crowdsorcery.investor.repository.InitialInvestorsPopulator;
@@ -16,7 +17,6 @@ import pl.wojtyna.trainings.spring.crowdsorcery.investor.repository.InvestorRepo
 import pl.wojtyna.trainings.spring.crowdsorcery.investor.repository.LocalInvestorProfileRepository;
 import pl.wojtyna.trainings.spring.crowdsorcery.investor.repository.mongo.MongoSpringDataBackedInvestorRepository;
 import pl.wojtyna.trainings.spring.crowdsorcery.investor.repository.mongo.MongoSpringInvestorRepository;
-import pl.wojtyna.trainings.spring.crowdsorcery.investor.service.InvestorProfileService;
 import pl.wojtyna.trainings.spring.crowdsorcery.investor.service.InvestorService;
 import pl.wojtyna.trainings.spring.crowdsorcery.rest.RestModuleConfiguration;
 
