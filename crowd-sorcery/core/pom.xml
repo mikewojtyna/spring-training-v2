@@ -22,6 +22,12 @@
 		<dependency>
 			<groupId>pl.wojtyna.trainings.spring.crowdsorcery
 			</groupId>
+			<artifactId>crowd-sorcery-mail</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>pl.wojtyna.trainings.spring.crowdsorcery
+			</groupId>
 			<artifactId>crowd-sorcery-rest</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
