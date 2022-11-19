@@ -8,7 +8,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import pl.wojtyna.trainings.spring.crowdsorcery.testutils.CrowdSorceryTestBase;
 
 import static org.hamcrest.Matchers.emptyOrNullString;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.asyncDispatch;
@@ -19,7 +18,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
-class InvestmentSimulationRunnerTest extends CrowdSorceryTestBase {
+class InvestmentSimulationRunnerTest {
 
     @Autowired
     private MockMvc mockMvc;

@@ -9,6 +9,7 @@
 		<module>common</module>
 		<module>rest</module>
 		<module>mail</module>
+		<module>investment-simulation</module>
 	</modules>
 	<parent>
 		<artifactId>spring-training-v2</artifactId>

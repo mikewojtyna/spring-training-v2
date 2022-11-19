@@ -13,9 +13,6 @@ public interface InputPointcuts {
     @Pointcut("execution(* pl.wojtyna.trainings.spring.crowdsorcery.portfolio.PortfolioService.*(..))")
     static void portfolioService() {}
 
-    @Pointcut("execution(* pl.wojtyna.trainings.spring.crowdsorcery.investmentsimulation.InvestmentSimulationRunner.*(..))")
-    static void investmentSimulation() {}
-
-    @Pointcut("investorService() || borrowerService() || portfolioService() || investmentSimulation()")
+    @Pointcut("investorService() || borrowerService() || portfolioService()")
     static void allInputs() {}
 }
