@@ -10,6 +10,7 @@
 		<module>rest</module>
 		<module>mail</module>
 		<module>investment-simulation</module>
+		<module>external-investor-profile-rest-server</module>
 	</modules>
 	<parent>
 		<artifactId>spring-training-v2</artifactId>

@@ -1,4 +1,4 @@
-package pl.wojtyna.trainings.spring.crowdsorcery.external;
+package external;
 
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
