@@ -7,6 +7,7 @@
 	<modules>
 		<module>core</module>
 		<module>common</module>
+		<module>rest</module>
 	</modules>
 	<parent>
 		<artifactId>spring-training-v2</artifactId>

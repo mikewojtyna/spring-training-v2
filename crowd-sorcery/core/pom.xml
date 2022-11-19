@@ -22,6 +22,12 @@
 		<dependency>
 			<groupId>pl.wojtyna.trainings.spring.crowdsorcery
 			</groupId>
+			<artifactId>crowd-sorcery-rest</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>pl.wojtyna.trainings.spring.crowdsorcery
+			</groupId>
 			<artifactId>crowd-sorcery-common</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
@@ -88,12 +94,6 @@
 			<groupId>org.reflections</groupId>
 			<artifactId>reflections</artifactId>
 			<version>0.10.2</version>
-		</dependency>
-		<dependency>
-			<groupId>com.konghq</groupId>
-			<artifactId>unirest-java</artifactId>
-			<version>3.13.11</version>
-			<classifier>standalone</classifier>
 		</dependency>
 		<dependency>
 			<groupId>org.eclipse.jetty</groupId>
