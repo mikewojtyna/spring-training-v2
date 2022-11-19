@@ -6,6 +6,7 @@
 	<packaging>pom</packaging>
 	<modules>
 		<module>core</module>
+		<module>common</module>
 	</modules>
 	<parent>
 		<artifactId>spring-training-v2</artifactId>
