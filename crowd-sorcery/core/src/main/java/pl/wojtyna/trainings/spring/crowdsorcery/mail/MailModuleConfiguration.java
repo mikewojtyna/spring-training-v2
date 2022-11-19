@@ -8,6 +8,6 @@ public class MailModuleConfiguration {
 
     @Bean
     public EmailAddressResolver stubbedEmailAddressResolver() {
-        return investor -> "%s@wojtyna.pl".formatted(investor.name());
+        return user -> "%s@wojtyna.pl".formatted(user.name());
     }
 }
