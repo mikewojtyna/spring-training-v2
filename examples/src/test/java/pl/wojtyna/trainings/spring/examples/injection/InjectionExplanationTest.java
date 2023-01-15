@@ -9,6 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
 
 import java.util.Set;
+import java.util.UUID;
 
 import static io.restassured.RestAssured.given;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -113,9 +114,21 @@ class InjectionExplanationTest {
     @Test
     void injectRequestTest2() {
         RestAssured.port = port;
-        var firstId = given().when().get("http://localhost/injection").thenReturn().getBody().asString();
-        var secondId = given().when().get("http://localhost/injection").thenReturn().getBody().asString();
-        var thirdId = given().when().get("http://localhost/injection").thenReturn().getBody().asString();
+        var firstId = UUID.fromString(given().when()
+                                             .get("http://localhost/injection")
+                                             .thenReturn()
+                                             .getBody()
+                                             .asString());
+        var secondId = UUID.fromString(given().when()
+                                              .get("http://localhost/injection")
+                                              .thenReturn()
+                                              .getBody()
+                                              .asString());
+        var thirdId = UUID.fromString(given().when()
+                                             .get("http://localhost/injection")
+                                             .thenReturn()
+                                             .getBody()
+                                             .asString());
         assertThat(Set.of(firstId, secondId, thirdId)).hasSize(3);
     }
 }
