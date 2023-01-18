@@ -227,6 +227,34 @@ class PortfolioSecurityRestApiTest extends CrowdSorceryTestBase {
         verify(portfolioService).getPublicPortfolio(georgeId);
     }
 
+    // @formatter:off
+    @DisplayName(
+        """
+         investor can hide her portfolio by providing also the identity document instead of just basic auth credentials
+        """
+    )
+    // @formatter:on
+    @Test
+    void test6() throws Exception {
+        // given
+        var investorId = specialHardcodedInvestorIdThatIsAcceptableByIdDocumentAuthenticationProvider();
+        investorService.register(new RegisterInvestor(investorId, "George", 0));
+
+        // when
+        mockMvc.perform(put("/portfolio-module/api/v0/portfolios/myPortfolio/public").contentType(MediaType.TEXT_PLAIN)
+                                                                                     .header("Id-Document", investorId)
+                                                                                     .content("false"))
+
+               // then
+               .andExpect(status().isOk());
+
+        verify(portfolioService).hidePortfolio(investorId);
+    }
+
+    private String specialHardcodedInvestorIdThatIsAcceptableByIdDocumentAuthenticationProvider() {
+        return "45419b98-ea19-48e7-a39f-d990d948c64a";
+    }
+
     private String resolveInvestorUsername(String investorId) {
         // for now, let's assume it's always the investor id
         return investorId;
