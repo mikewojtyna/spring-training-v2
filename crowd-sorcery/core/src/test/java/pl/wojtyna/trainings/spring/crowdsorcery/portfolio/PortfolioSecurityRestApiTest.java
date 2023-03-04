@@ -178,6 +178,41 @@ class PortfolioSecurityRestApiTest extends CrowdSorceryTestBase {
     // @formatter:off
     @DisplayName(
         """
+         moderator can delete the investment from any portfolio
+        """
+    )
+    // @formatter:on
+    @Test
+    void moderatorPermissionsTest() throws Exception {
+        // given
+        var georgeId = UUID.randomUUID().toString();
+        investorService.register(new RegisterInvestor(georgeId, "George", 0));
+        var investmentId = "123456";
+        var portfolioId = "798456";
+
+        // when
+        // moderator can delete the investment
+        mockMvc.perform(delete("/portfolio-module/api/v0/portfolios/{portfolioId}/investments/{id}",
+                               portfolioId,
+                               investmentId).with(
+                   httpBasic(resolveModeratorUsername(), resolveModeratorPassword())))
+
+               // then
+               .andExpect(status().isOk());
+
+        // George cannot delete the investment
+        mockMvc.perform(delete("/portfolio-module/api/v0/portfolios/{portfolioId}/investments/{id}",
+                               portfolioId,
+                               investmentId).with(
+                   httpBasic(resolveInvestorUsername(georgeId), resolveInvestorPassword(georgeId))))
+
+               // then
+               .andExpect(status().isForbidden());
+    }
+
+    // @formatter:off
+    @DisplayName(
+        """
          anyone is allowed to get a list of all public portfolios and see details of any public portfolio
         """
     )
@@ -249,6 +284,14 @@ class PortfolioSecurityRestApiTest extends CrowdSorceryTestBase {
                .andExpect(status().isOk());
 
         verify(portfolioService).hidePortfolio(investorId);
+    }
+
+    private String resolveModeratorPassword() {
+        return "qwerty";
+    }
+
+    private String resolveModeratorUsername() {
+        return "MODERATOR_0";
     }
 
     private String specialHardcodedInvestorIdThatIsAcceptableByIdDocumentAuthenticationProvider() {

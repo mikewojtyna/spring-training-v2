@@ -10,6 +10,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class SecurityModuleConfiguration {
 
     @Bean
+    public DefaultIdentitiesInitializer defaultIdentitiesInitializer(IdentityRepository identityRepository,
+                                                                     PasswordEncoder passwordEncoder) {
+        return new DefaultIdentitiesInitializer(identityRepository, passwordEncoder);
+    }
+
+    @Bean
     public IdentityCreatorEventListener identityCreatorEventListener(IdentityRepository identityRepository,
                                                                      PasswordGenerator passwordGenerator) {
         return new IdentityCreatorEventListener(identityRepository, passwordGenerator);

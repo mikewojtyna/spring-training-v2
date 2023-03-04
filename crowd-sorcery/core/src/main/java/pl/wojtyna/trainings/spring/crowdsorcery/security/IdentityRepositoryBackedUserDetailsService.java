@@ -21,7 +21,8 @@ public class IdentityRepositoryBackedUserDetailsService implements UserDetailsSe
         return identityRepository.findById(username)
                                  .map(crowdSorceryIdentity -> new User(crowdSorceryIdentity.id(),
                                                                        crowdSorceryIdentity.password(),
-                                                                       List.of(new SimpleGrantedAuthority("USER"))))
+                                                                       List.of(new SimpleGrantedAuthority(
+                                                                           crowdSorceryIdentity.role()))))
                                  .orElseThrow(() -> new UsernameNotFoundException("Username %s not found.".formatted(
                                      username)));
     }

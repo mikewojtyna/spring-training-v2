@@ -1,6 +1,7 @@
 package pl.wojtyna.trainings.spring.crowdsorcery.portfolio;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
@@ -49,6 +50,13 @@ public class PortfolioRestApi {
                                @RequestBody Investment investment,
                                Principal principal) {
         portfolioService.editInvestment(principal.getName(), investment);
+    }
+
+    @DeleteMapping("/{portfolioId}/investments/{id}")
+    @PreAuthorize("hasRole('ROLE_MODERATOR')")
+    public void deleteInvestment(@PathVariable("portfolioId") String portfolioId,
+                                 @PathVariable("id") String investmentId) {
+        portfolioService.deleteInvestment(portfolioId, investmentId);
     }
 
     @DeleteMapping("/myPortfolio/investments/{id}")

@@ -20,6 +20,6 @@ public class IdentityCreatorEventListener {
     }
 
     private void createIdentityOf(Investor investor) {
-        identityRepository.save(new CrowdSorceryIdentity(investor.id(), passwordGenerator.password()));
+        identityRepository.save(new CrowdSorceryIdentity(investor.id(), "ROLE_USER", passwordGenerator.password()));
     }
 }
