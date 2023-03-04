@@ -2,6 +2,7 @@ package pl.wojtyna.trainings.spring.crowdsorcery.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -30,6 +31,7 @@ import java.util.List;
 public class SecurityConfig {
 
     @Bean
+    @Order(1)
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity.authenticationProvider(new IdDocumentAuthenticationProvider())
                            .addFilterBefore(new IdDocumentAuthenticationFilter(), BasicAuthenticationFilter.class)
