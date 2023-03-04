@@ -12,6 +12,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import pl.wojtyna.trainings.spring.crowdsorcery.investor.service.InvestorService;
 import pl.wojtyna.trainings.spring.crowdsorcery.investor.service.RegisterInvestor;
+import pl.wojtyna.trainings.spring.crowdsorcery.relationships.RelationshipsManager;
 import pl.wojtyna.trainings.spring.crowdsorcery.testutils.CrowdSorceryTestBase;
 
 import java.util.List;
@@ -43,6 +44,8 @@ class PortfolioSecurityRestApiTest extends CrowdSorceryTestBase {
     private PortfolioService portfolioService;
     @Value("${crowd-sorcery.security.dummy-password}")
     private String dummyPassword;
+    @Autowired
+    private RelationshipsManager relationshipsManager;
 
     // @formatter:off
     @DisplayName(
@@ -194,8 +197,7 @@ class PortfolioSecurityRestApiTest extends CrowdSorceryTestBase {
         // moderator can delete the investment
         mockMvc.perform(delete("/portfolio-module/api/v0/portfolios/{portfolioId}/investments/{id}",
                                portfolioId,
-                               investmentId).with(
-                   httpBasic(resolveModeratorUsername(), resolveModeratorPassword())))
+                               investmentId).with(httpBasic(resolveModeratorUsername(), resolveModeratorPassword())))
 
                // then
                .andExpect(status().isOk());
@@ -203,11 +205,41 @@ class PortfolioSecurityRestApiTest extends CrowdSorceryTestBase {
         // George cannot delete the investment
         mockMvc.perform(delete("/portfolio-module/api/v0/portfolios/{portfolioId}/investments/{id}",
                                portfolioId,
-                               investmentId).with(
-                   httpBasic(resolveInvestorUsername(georgeId), resolveInvestorPassword(georgeId))))
+                               investmentId).with(httpBasic(resolveInvestorUsername(georgeId),
+                                                            resolveInvestorPassword(georgeId))))
 
                // then
                .andExpect(status().isForbidden());
+    }
+
+    // @formatter:off
+    @DisplayName(
+        """
+         friend can can see her friend's portfolio
+        """
+    )
+    // @formatter:on
+    @Test
+    void friendsCanSeeTheirPortfoliosTest() throws Exception {
+        // given
+        var georgeId = UUID.randomUUID().toString();
+        investorService.register(new RegisterInvestor(georgeId, "George", 0));
+        var martinId = UUID.randomUUID().toString();
+        investorService.register(new RegisterInvestor(martinId, "Martin", 0));
+        relationshipsManager.makeFriends(georgeId, martinId);
+
+        // when
+        // George can view Martin's portfolio because they are friends
+        mockMvc.perform(get("/portfolio-module/api/v0/portfolios/{portfolioId}",
+                            martinId).contentType(MediaType.TEXT_PLAIN)
+                                     .with(httpBasic(resolveInvestorUsername(
+                                                         georgeId),
+                                                     resolveInvestorPassword(
+                                                         georgeId))))
+
+               // then
+               .andExpect(status().isOk());
+        verify(portfolioService).getPortfolio(martinId);
     }
 
     // @formatter:off

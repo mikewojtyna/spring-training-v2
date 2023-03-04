@@ -5,9 +5,15 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import pl.wojtyna.trainings.spring.crowdsorcery.relationships.RelationshipsManager;
 
 @Configuration
 public class SecurityModuleConfiguration {
+
+    @Bean
+    public CrowdSorceryPermissionEvaluator crowdSorceryPermissionEvaluator(RelationshipsManager relationshipsManager) {
+        return new CrowdSorceryPermissionEvaluator(relationshipsManager);
+    }
 
     @Bean
     public DefaultIdentitiesInitializer defaultIdentitiesInitializer(IdentityRepository identityRepository,

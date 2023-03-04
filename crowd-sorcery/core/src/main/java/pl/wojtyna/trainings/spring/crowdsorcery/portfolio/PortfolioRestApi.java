@@ -28,6 +28,12 @@ public class PortfolioRestApi {
         return portfolioService.getPublicPortfolio(id);
     }
 
+    @GetMapping("/{id}")
+    @PreAuthorize("hasPermission(#id, 'pl.wojtyna.trainings.spring.crowdsorcery.portfolio.Portfolio', 'FRIEND_OF')")
+    public Optional<Portfolio> getPortfolio(@PathVariable("id") String id) {
+        return portfolioService.getPortfolio(id);
+    }
+
     @PutMapping(value = "/myPortfolio/public", consumes = "text/plain")
     public void changeVisibility(@RequestBody String publicFlag, Principal principal) {
         var isPublic = Boolean.parseBoolean(publicFlag);
